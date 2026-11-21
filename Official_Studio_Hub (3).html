@@ -1,1 +1,2061 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+ <title>Official Studio Hub — Games &amp; Smart Mobile Apps</title>
+ <meta name="description" content="Official Studio Hub featuring African Dam Checker, Coins Catcher, and African Ludo Pro." />
+ <link rel="preconnect" href="https://fonts.googleapis.com" />
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+ <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+ <style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif; background: #0B1120; color: #F8FAFC; scroll-behavior: smooth; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; min-height: 100vh; background: #0B1120; color: #F8FAFC; -webkit-font-smoothing: antialiased; overscroll-behavior-y: contain; -webkit-touch-callout: none; }
+  h1, h2, h3, h4, .font-display { font-family: "Outfit", ui-sans-serif, system-ui, sans-serif; margin: 0; }
+  p { margin: 0; }
+  button, input, select { font-family: inherit; }
+  button { cursor: pointer; border: none; background: none; color: inherit; }
+  a { color: inherit; text-decoration: none; }
+  button, a, .dam-sq, .ludo-token, .tier-btn, .back-btn, .btn-primary, .btn-secondary, .btn-reward {
+   touch-action: manipulation;
+   -webkit-tap-highlight-color: transparent;
+   user-select: none;
+   -webkit-user-select: none;
+  }
+  .hidden { display: none !important; }
+  .font-mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* Hub Shell */
+  .hub-header { border-bottom: 1px solid rgba(30,41,59,.8); background: #0B1120; }
+  .hub-wrap { max-width: 1152px; margin: 0 auto; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .hub-brand { font-size: 18px; font-weight: 700; color: #fff; white-space: nowrap; }
+  .hub-nav { display: flex; align-items: center; gap: 24px; font-size: 14px; font-weight: 500; color: #cbd5e1; }
+  .hub-nav a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+  .hub-main { max-width: 1152px; margin: 0 auto; padding: 32px 20px 44px; display: flex; flex-direction: column; gap: 36px; }
+  .hub-top-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
+  .hub-kicker { font-size: 12px; font-weight: 600; color: #34d399; margin-bottom: 6px; }
+  .hub-h1 { font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -0.02em; color: #fff; }
+  .hub-sub { margin-top: 8px; font-size: 15px; color: #cbd5e1; max-width: 640px; line-height: 1.5; }
+  .hub-best { font-size: 12px; color: #94a3b8; white-space: nowrap; }
+  .hub-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  @media (max-width: 1023px) { .hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 680px) { .hub-grid { grid-template-columns: 1fr; } .hub-nav { display: none; } }
+  .game-card { display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; border: 1px solid rgba(30,41,59,.9); background: #131C31; }
+  .game-cover { aspect-ratio: 16 / 10; width: 100%; overflow: hidden; border-bottom: 1px solid rgba(30,41,59,.85); background: #0f172a; }
+  .game-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .game-body { display: flex; flex: 1; flex-direction: column; justify-content: space-between; padding: 24px; }
+  .game-genre { font-size: 12px; font-weight: 500; color: #94a3b8; margin-bottom: 6px; }
+  .game-genre .live { color: #34d399; font-weight: 600; }
+  .game-title { font-size: 23px; font-weight: 700; color: #fff; }
+  .game-desc { margin-top: 8px; font-size: 14px; color: #cbd5e1; line-height: 1.55; }
+  .game-foot { margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(30,41,59,.8); }
+  .btn-primary { width: 100%; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; background: #10B981; color: #020617; font-size: 14px; font-weight: 700; padding: 12px 20px; transition: background .15s, transform .1s; }
+  .btn-primary:hover { background: #34D399; }
+  .btn-primary:active { transform: scale(.99); }
+  .btn-secondary { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; border: 1px solid #334155; background: #1E293B; color: #F1F5F9; font-size: 13px; font-weight: 600; padding: 10px 16px; transition: background .15s; }
+  .btn-secondary:hover { background: #334155; }
+  .btn-reward { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 11px 20px; border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #fbbf24); color: #0c0a09; font-size: 13.5px; font-weight: 800; box-shadow: 0 8px 20px rgba(245,158,11,.24); transition: filter .15s, transform .1s; text-align: center; }
+  .btn-reward:hover { filter: brightness(1.07); }
+  .btn-reward:active { transform: scale(.99); }
+  .hub-panel { border-radius: 16px; border: 1px solid rgba(30,41,59,.9); background: #131C31; padding: 24px 28px; }
+  .score-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13.5px; margin-top: 14px; }
+  .score-table th { padding-bottom: 10px; border-bottom: 1px solid #1e293b; font-size: 12px; color: #94a3b8; font-weight: 600; }
+  .score-table td { padding: 11px 8px 11px 0; border-bottom: 1px solid rgba(30,41,59,.7); color: #e2e8f0; }
+  /* Shared Game Shells */
+  .game-page { min-height: 100vh; padding: 16px; }
+  .game-container { max-width: 1152px; margin: 0 auto; border-radius: 16px; border: 1px solid #1e293b; background: #131C31; overflow: hidden; }
+  .game-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid #1e293b; background: #0F172A; padding: 12px 20px; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 6px 12px; border-radius: 9px; border: 1px solid #334155; background: #131C31; color: #e2e8f0; font-size: 12px; font-weight: 700; }
+  .back-btn:hover { background: #1e293b; }
+  /* Coins Catcher */
+  .cc-stage { position: relative; width: 100%; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+  .cc-stage canvas { display: block; width: 100%; cursor: crosshair; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+  .cc-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(11,17,32,.86); backdrop-filter: blur(4px); padding: 16px; }
+  .cc-modal { width: 100%; max-width: 460px; border-radius: 16px; border: 1px solid #334155; background: #131C31; padding: 24px; box-shadow: 0 24px 48px rgba(0,0,0,.55); }
+  .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 4px; border-radius: 12px; background: #0B1120; border: 1px solid #1e293b; margin: 12px 0 18px; }
+  .tier-btn { min-height: 38px; border-radius: 8px; font-size: 12px; font-weight: 700; color: #cbd5e1; }
+  .tier-btn.active { background: #10B981; color: #020617; }
+  /* African Dam */
+  .dam-layout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 20px; align-items: start; padding: 20px; }
+  @media (max-width: 960px) { .dam-layout { grid-template-columns: 1fr; padding: 12px; } }
+  .dam-board-wrap { width: 100%; max-width: 560px; aspect-ratio: 1 / 1; margin: 0 auto; border-radius: 16px; border: 4px solid #5C3015; background: #3E1F0E; padding: 8px; box-shadow: 0 20px 44px rgba(0,0,0,.55); touch-action: none; user-select: none; -webkit-user-select: none; }
+  .dam-board-wrap.theme-dark { border-color: #334155; background: #020617; }
+  .dam-board-wrap.theme-emerald { border-color: #064e3b; background: #081C15; }
+  .dam-grid { width: 100%; height: 100%; display: grid; border-radius: 10px; overflow: hidden; border: 1px solid rgba(0,0,0,.45); touch-action: none; }
+  .dam-sq { position: relative; display: flex; align-items: center; justify-content: center; padding: 0; width: 100%; height: 100%; touch-action: none; }
+  .dam-sq.light-wood { background: #CFB48F; color: #5C3E21; }
+  .dam-sq.dark-wood { background: #4A2615; color: #B8956E; }
+  .dam-sq.light-dark { background: rgba(51,65,85,.75); color: #cbd5e1; }
+  .dam-sq.dark-dark { background: #0f172a; color: #64748b; }
+  .dam-sq.light-emerald { background: #E5EDE8; color: #1B4332; }
+  .dam-sq.dark-emerald { background: #1B4332; color: #85B79D; }
+  .dam-sq.last-move::after { content: ""; position: absolute; inset: 0; background: rgba(251,191,36,.24); pointer-events: none; }
+  .dam-piece { width: 84%; height: 84%; border-radius: 9999px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; will-change: transform; pointer-events: none; }
+  .dam-piece.red { background: radial-gradient(circle at 30% 28%, #ff6b6b, #d32f2f 58%, #7f0000); border: 2px solid #ff867c; box-shadow: 0 4px 10px rgba(0,0,0,.55); }
+  .dam-piece.white { background: radial-gradient(circle at 30% 28%, #ffffff, #e2e8f0 60%, #94a3b8); border: 2px solid #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,.45); }
+  .dam-piece.selected { transform: scale(1.06); box-shadow: 0 0 0 3px #fbbf24, 0 8px 16px rgba(0,0,0,.6); z-index: 4; }
+  .dam-piece.must-cap { box-shadow: 0 0 0 2.5px #fbbf24, 0 0 12px rgba(251,191,36,.7); }
+  .dam-piece-inner { width: 70%; height: 70%; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
+  .dam-piece.red .dam-piece-inner { border: 1px solid rgba(127,29,29,.6); background: linear-gradient(135deg,#dc2626,#991b1b); color: #fde047; }
+  .dam-piece.white .dam-piece-inner { border: 1px solid #cbd5e1; background: linear-gradient(135deg,#f8fafc,#e2e8f0); color: #b45309; }
+  .dam-dot { position: absolute; z-index: 5; width: 34%; height: 34%; border-radius: 9999px; background: rgba(251,191,36,.95); box-shadow: 0 0 0 4px rgba(251,191,36,.28); pointer-events: none; }
+  .dam-cap-ring { position: absolute; z-index: 5; width: 72%; height: 72%; border-radius: 9999px; border: 2.5px solid #fb7185; background: rgba(244,63,94,.28); pointer-events: none; }
+  .dam-huff-ring { position: absolute; z-index: 5; width: 58%; height: 58%; border-radius: 9999px; border: 2px dashed #fb923c; background: rgba(249,115,22,.28); pointer-events: none; }
+  /* African Ludo Pro */
+  .ludo-page { min-height: 100vh; background: #14110f; color: #f7f3eb; display: flex; flex-direction: column; }
+  .ludo-header { background: #191512; border-bottom: 1px solid #2d241e; }
+  .ludo-head-in { max-width: 1440px; margin: 0 auto; padding: 12px 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+  .ludo-arena { width: 100%; max-width: 1440px; margin: 0 auto; padding: 16px 18px 28px; display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(300px, 360px); gap: 24px; align-items: start; }
+  @media (max-width: 1023px) { .ludo-arena { grid-template-columns: 1fr; padding: 12px; } }
+  .ludo-frame { width: 100%; max-width: min(85vh, 760px); margin: 0 auto; background: #2a2019; padding: 8px; border-radius: 16px; border: 1px solid #4a382b; box-shadow: 0 24px 48px rgba(0,0,0,.6); touch-action: none; }
+  .ludo-board { position: relative; width: 100%; aspect-ratio: 1 / 1; display: grid; grid-template-columns: repeat(15, minmax(0,1fr)); grid-template-rows: repeat(15, minmax(0,1fr)); background: #faf6ee; border: 2px solid #4a382b; border-radius: 12px; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .ludo-cell { position: relative; border: 1px solid rgba(120,113,108,.28); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #57534e; }
+  .ludo-yard { position: absolute; width: 40%; height: 40%; z-index: 10; padding: 6%; }
+  .ludo-yard-inner { width: 100%; height: 100%; background: #faf6ee; border-radius: 12px; border: 2px solid rgba(41,37,36,.35); position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; padding: 12%; gap: 12%; place-items: center; }
+  .ludo-pedestal { width: 76%; height: 76%; border-radius: 9999px; border: 2px solid rgba(255,255,255,.9); box-shadow: inset 0 2px 4px rgba(0,0,0,.35); z-index: 2; }
+  .ludo-center { position: absolute; left: 40%; top: 40%; width: 20%; height: 20%; z-index: 10; border: 1px solid #44403c; overflow: hidden; }
+  .ludo-token { position: absolute; z-index: 25; border-radius: 9999px; border: 2px solid #fff; box-shadow: 0 3px 8px rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 10px; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.85); will-change: left, top, transform; touch-action: none; }
+  .ludo-token.movable { box-shadow: 0 0 0 3px #fcd34d, 0 4px 12px rgba(0,0,0,.7); cursor: pointer; z-index: 30; }
+  .ludo-dice { width: 64px; height: 64px; border-radius: 14px; background: #faf6ee; border: 2px solid #d6d3d1; position: relative; box-shadow: 0 8px 20px rgba(0,0,0,.45); flex-shrink: 0; will-change: transform; }
+  .ludo-pip { position: absolute; width: 11px; height: 11px; border-radius: 9999px; background: #1c1917; transform: translate(-50%,-50%); }
+  /* Modals */
+  .modal-backdrop { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.78); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .modal-card { width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; border-radius: 18px; border: 1px solid #334155; background: #131C31; color: #f8fafc; padding: 24px; box-shadow: 0 24px 48px rgba(0,0,0,.65); }
+  .ludo-modal-card { background: #1e1814; border-color: #43362c; color: #f7f3eb; }
+  .toast { position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 80; background: #0f172a; border: 1px solid rgba(245,158,11,.5); color: #f8fafc; padding: 9px 16px; border-radius: 10px; font-size: 12.5px; font-weight: 600; box-shadow: 0 12px 30px rgba(0,0,0,.5); }
+ </style>
+</head>
+<body>
+ <div id="toast" class="toast hidden"></div>
+ <!-- VIEW 1: OFFICIAL STUDIO HUB -->
+ <div id="view-hub">
+  <header class="hub-header">
+   <div class="hub-wrap">
+    <span class="hub-brand font-display">Official Studio Hub</span>
+    <nav class="hub-nav">
+     <a href="#games">Games</a>
+     <a href="#high-scores">High Scores</a>
+    </nav>
+    <a id="hub-header-reward" class="btn-reward" href="#" data-smart-reward="1" target="_blank" rel="noopener noreferrer" style="min-height:38px;padding:7px 14px;font-size:12px;">🎁 Online Daily Reward / Unlock Pro Theme</a>
+   </div>
+  </header>
+  <main class="hub-main">
+   <section id="games">
+    <div class="hub-top-row">
+     <div>
+      <p class="hub-kicker">3 Games Live Now</p>
+      <h1 class="hub-h1 font-display">Select a Game to Play</h1>
+      <p class="hub-sub">Choose any game below to open its own full-screen play view.</p>
+     </div>
+     <span class="hub-best font-mono" id="hub-best-label">Coins Catcher Best · 0</span>
+    </div>
+    <div style="margin: 16px 0 22px;">
+     <a id="hub-main-reward" class="btn-reward" href="#" data-smart-reward="1" target="_blank" rel="noopener noreferrer">🎁 Online Daily Reward / Unlock Pro Theme</a>
+    </div>
+    <div class="hub-grid" id="hub-games-grid"></div>
+   </section>
+   <section id="high-scores" class="hub-panel">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;">
+     <div>
+      <h2 class="font-display" style="font-size:20px;font-weight:700;color:#fff;">Coins Catcher Personal High Scores</h2>
+      <p style="font-size:13px;color:#94a3b8;margin-top:4px;">Top 5 runs recorded locally on this device.</p>
+     </div>
+     <button type="button" id="btn-clear-scores" class="btn-secondary hidden">Clear Scores</button>
+    </div>
+    <div id="scores-body" style="margin-top:14px;"></div>
+   </section>
+  </main>
+  <footer style="border-top:1px solid rgba(30,41,59,.8);padding:26px 20px;">
+   <div style="max-width:1152px;margin:0 auto;font-size:12px;color:#94a3b8;">Official Game &amp; App Studio Hub · Instant Web Games</div>
+  </footer>
+ </div>
+ <!-- VIEW 2: COINS CATCHER -->
+ <div id="view-coins" class="game-page hidden">
+  <div class="game-container">
+   <div class="game-bar">
+    <div style="display:flex;align-items:center;gap:12px;">
+     <button type="button" class="back-btn" onclick="Hub.goHome()">← Main Page</button>
+     <div>
+      <h2 class="font-display" style="font-size:16px;font-weight:700;color:#fff;">Coins Catcher</h2>
+      <p id="cc-subtitle" style="font-size:12px;color:#94a3b8;">Standard · Multiplier <span class="font-mono" style="color:#fcd34d;">1x</span></p>
+     </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+     <div style="display:flex;gap:18px;font-size:12px;">
+      <div><span style="color:#94a3b8;display:block;">Score</span><strong id="cc-score" class="font-mono" style="font-size:16px;color:#fff;">0</strong></div>
+      <div><span style="color:#94a3b8;display:block;">Best</span><strong id="cc-best" class="font-mono" style="font-size:16px;color:#fcd34d;">0</strong></div>
+      <div><span style="color:#94a3b8;display:block;">Lives</span><strong id="cc-lives" style="font-size:15px;color:#fb7185;">♥♥♥</strong></div>
+     </div>
+     <div style="display:flex;gap:8px;">
+      <button type="button" id="cc-pause-btn" class="back-btn hidden" onclick="CoinsGame.togglePause()">Pause</button>
+      <button type="button" id="cc-mute-btn" class="back-btn" onclick="CoinsGame.toggleMute()">Sound On</button>
+     </div>
+    </div>
+   </div>
+   <div class="cc-stage">
+    <canvas id="cc-canvas"></canvas>
+    <div id="cc-menu-overlay" class="cc-overlay">
+     <div class="cc-modal">
+      <h3 class="font-display" style="font-size:21px;font-weight:700;color:#fff;">Coins Catcher</h3>
+      <p style="font-size:13px;color:#cbd5e1;margin-top:6px;line-height:1.5;">Move with mouse, touch drag, or Left/Right arrow keys. Catch gold (+10), emerald (+30), and crown (+50) treasures while dodging iron bombs.</p>
+      <span style="display:block;font-size:12px;color:#94a3b8;margin-top:14px;">Select Speed Tier</span>
+      <div class="tier-grid" id="cc-tiers">
+       <button type="button" class="tier-btn active" onclick="CoinsGame.setTier('Standard', this)">Standard</button>
+       <button type="button" class="tier-btn" onclick="CoinsGame.setTier('Arcade', this)">Arcade</button>
+       <button type="button" class="tier-btn" onclick="CoinsGame.setTier('Championship', this)">Championship</button>
+      </div>
+      <button type="button" class="btn-primary" onclick="CoinsGame.start()">Start Game</button>
+     </div>
+    </div>
+    <div id="cc-pause-overlay" class="cc-overlay hidden">
+     <div class="cc-modal" style="max-width:320px;text-align:center;">
+      <h3 class="font-display" style="font-size:20px;font-weight:700;color:#fff;">Game Paused</h3>
+      <p style="font-size:13px;color:#94a3b8;margin:8px 0 18px;">Current score: <span id="cc-pause-score" class="font-mono" style="color:#fff;">0</span></p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+       <button type="button" class="btn-primary" onclick="CoinsGame.togglePause()">Resume</button>
+       <button type="button" class="btn-secondary" onclick="CoinsGame.start()">Restart Run</button>
+      </div>
+     </div>
+    </div>
+    <div id="cc-gameover-overlay" class="cc-overlay hidden">
+     <div class="cc-modal">
+      <h3 class="font-display" style="font-size:24px;font-weight:700;color:#fff;">Run Complete</h3>
+      <p id="cc-go-sub" style="font-size:12px;color:#94a3b8;margin-top:4px;">Standard Tier · Session saved locally</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-top:1px solid #1e293b;border-bottom:1px solid #1e293b;padding:14px 0;margin:16px 0;">
+       <div><span style="font-size:11px;color:#94a3b8;display:block;">Final Score</span><strong id="cc-go-score" class="font-mono" style="font-size:18px;color:#fff;">0</strong></div>
+       <div><span style="font-size:11px;color:#94a3b8;display:block;">Coins Caught</span><strong id="cc-go-coins" class="font-mono" style="font-size:18px;color:#34d399;">0</strong></div>
+       <div><span style="font-size:11px;color:#94a3b8;display:block;">Best Streak</span><strong id="cc-go-streak" class="font-mono" style="font-size:18px;color:#fcd34d;">0</strong></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+       <a id="cc-go-reward" class="btn-reward" href="#" data-smart-reward="1" target="_blank" rel="noopener noreferrer">🎁 Online Daily Reward / Unlock Pro Theme</a>
+       <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button type="button" class="btn-primary" style="flex:1;" onclick="CoinsGame.start()">Play Again</button>
+        <button type="button" class="btn-secondary" onclick="CoinsGame.showMenu()">Change Speed</button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+ <!-- VIEW 3: AFRICAN DAM CHECKER -->
+ <div id="view-dam" class="game-page hidden">
+  <div class="game-container" style="max-width:1280px;">
+   <div class="game-bar">
+    <div style="display:flex;align-items:center;gap:12px;">
+     <button type="button" class="back-btn" id="dam-back-btn" onclick="DamGame.handleHeaderBack()">← Main Page</button>
+     <div>
+      <h2 class="font-display" style="font-size:18px;font-weight:700;color:#fff;">African Dam</h2>
+      <p id="dam-header-sub" style="font-size:12px;color:#94a3b8;">8×8 &amp; 10×10 Checkers · Flying Kings &amp; Multi-Jump</p>
+     </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+     <button type="button" class="back-btn" onclick="DamGame.toggleRules(true)">Rules</button>
+     <button type="button" id="dam-sound-btn" class="back-btn" onclick="DamGame.toggleSound()">Sound On</button>
+     <button type="button" class="back-btn" onclick="DamGame.toggleSettings(true)">Settings</button>
+    </div>
+   </div>
+   <!-- Dam Menu -->
+   <div id="dam-menu-view" style="padding:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:stretch;">
+    <div style="background:#0B1120;border:1px solid #1e293b;border-radius:16px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;">
+     <div style="display:flex;flex-direction:column;gap:14px;">
+      <div>
+       <h3 class="font-display" style="font-size:22px;font-weight:800;color:#fff;">African Dam Checker</h3>
+       <p style="font-size:12.5px;color:#94a3b8;margin-top:4px;">Flying Kings · Backward Pawn Captures · King Huffing · Undo &amp; Hints</p>
+      </div>
+      <div>
+       <span style="font-size:12px;font-weight:600;color:#cbd5e1;display:block;margin-bottom:6px;">Board Size</span>
+       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <button type="button" id="dam-size-8" class="btn-secondary" style="flex-direction:column;align-items:flex-start;border-color:#34d399;background:rgba(16,185,129,.14);" onclick="DamGame.setBoardSize(8)"><strong>8×8 Classic</strong><span style="font-size:11px;color:#94a3b8;">12 pieces/side</span></button>
+        <button type="button" id="dam-size-10" class="btn-secondary" style="flex-direction:column;align-items:flex-start;" onclick="DamGame.setBoardSize(10)"><strong>10×10 Grand Dam</strong><span style="font-size:11px;color:#34d399;">20 pieces/side</span></button>
+       </div>
+      </div>
+      <div>
+       <span style="font-size:12px;font-weight:600;color:#cbd5e1;display:block;margin-bottom:6px;">Computer Level</span>
+       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+        <button type="button" id="dam-diff-easy" class="btn-secondary" onclick="DamGame.setDifficulty('easy')">Easy</button>
+        <button type="button" id="dam-diff-medium" class="btn-secondary" style="border-color:#fbbf24;background:rgba(245,158,11,.15);" onclick="DamGame.setDifficulty('medium')">Medium</button>
+        <button type="button" id="dam-diff-hard" class="btn-secondary" onclick="DamGame.setDifficulty('hard')">Grandmaster</button>
+       </div>
+      </div>
+     </div>
+     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <button type="button" class="btn-primary" onclick="DamGame.startMatch('ai')">Play vs Computer</button>
+      <button type="button" class="btn-secondary" onclick="DamGame.startMatch('pvp')">Play 2-Player</button>
+     </div>
+    </div>
+    <div style="border-radius:16px;overflow:hidden;border:1px solid #1e293b;background:#0B1120;min-height:240px;">
+     <img id="dam-menu-art" alt="African Dam Checker mahogany and ebony board" style="width:100%;height:100%;object-fit:cover;display:block;" />
+    </div>
+   </div>
+   <!-- Dam Board Play -->
+   <div id="dam-play-view" class="hidden">
+    <div style="padding:16px 20px 0;">
+     <div id="dam-status-strip" style="min-height:46px;padding:10px 14px;border-radius:12px;background:#0F172A;border:1px solid #1e293b;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;"></div>
+    </div>
+    <div class="dam-layout">
+     <div>
+      <div id="dam-board-wrap" class="dam-board-wrap">
+       <div id="dam-grid" class="dam-grid"></div>
+      </div>
+      <button type="button" id="dam-stop-king-btn" class="btn-primary hidden" style="max-width:560px;margin:12px auto 0;background:#f97316;color:#020617;" onclick="DamGame.stopChainEarly()">Stop Jump (Removes King)</button>
+      <div style="max-width:560px;margin:12px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+       <button type="button" class="btn-secondary" onclick="DamGame.undo()">Undo</button>
+       <button type="button" class="btn-secondary" style="color:#fcd34d;" onclick="DamGame.hint()">Hint</button>
+       <button type="button" class="btn-secondary" onclick="DamGame.resetMatch()">New Game</button>
+      </div>
+     </div>
+     <div style="background:#0F172A;border:1px solid #1e293b;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+       <div id="dam-card-r" style="padding:12px;border-radius:12px;border:1px solid rgba(244,63,94,.55);background:rgba(136,19,55,.28);">
+        <div style="font-size:13px;font-weight:700;color:#fff;">RED (You)</div>
+        <div id="dam-stats-r" class="font-mono" style="font-size:12px;color:#cbd5e1;margin-top:6px;">12 Pieces · 0 Kings</div>
+       </div>
+       <div id="dam-card-w" style="padding:12px;border-radius:12px;border:1px solid #1e293b;background:#0B1120;">
+        <div id="dam-stats-w" style="font-size:13px;font-weight:700;color:#fff;">WHITE</div>
+        <div id="dam-counts-w" class="font-mono" style="font-size:12px;color:#cbd5e1;margin-top:6px;">12 Pieces · 0 Kings</div>
+       </div>
+      </div>
+      <div style="border-top:1px solid #1e293b;padding-top:12px;">
+       <div style="display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;margin-bottom:8px;"><span>Move History</span><span id="dam-move-count" class="font-mono">0</span></div>
+       <div id="dam-moves-list" class="font-mono" style="height:185px;overflow-y:auto;font-size:12px;color:#cbd5e1;display:flex;flex-direction:column;gap:4px;"></div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Dam Game Over Modal -->
+  <div id="dam-gameover-modal" class="modal-backdrop hidden">
+   <div class="modal-card" style="max-width:380px;text-align:center;">
+    <div style="font-size:36px;">🏆</div>
+    <h3 id="dam-go-title" class="font-display" style="font-size:24px;font-weight:800;margin-top:8px;">Red Victory!</h3>
+    <p id="dam-go-reason" style="font-size:13px;color:#cbd5e1;margin:8px 0 18px;line-height:1.5;"></p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+     <a id="dam-go-reward" class="btn-reward" href="#" data-smart-reward="1" target="_blank" rel="noopener noreferrer">🎁 Online Daily Reward / Unlock Pro Theme</a>
+     <button type="button" class="btn-primary" onclick="DamGame.resetMatch()">Play Again</button>
+     <button type="button" class="btn-secondary" onclick="DamGame.returnToMenu()">Return to Menu</button>
+    </div>
+   </div>
+  </div>
+  <!-- Dam Rules Modal -->
+  <div id="dam-rules-modal" class="modal-backdrop hidden" onclick="if(event.target===this)DamGame.toggleRules(false)">
+   <div class="modal-card" style="max-width:540px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e293b;padding-bottom:12px;margin-bottom:14px;">
+     <h3 class="font-display" style="font-size:18px;font-weight:700;">African Dam Rules Manual</h3>
+     <button type="button" onclick="DamGame.toggleRules(false)" style="font-size:18px;color:#94a3b8;">✕</button>
+    </div>
+    <div style="font-size:13px;color:#cbd5e1;line-height:1.55;display:flex;flex-direction:column;gap:10px;">
+     <p><strong style="color:#fff;">1. Flying Kings ("Dam"):</strong> Kings glide any unoccupied diagonal distance and capture in all 4 diagonal directions (including 90° turns, without reversing 180° over a piece just jumped).</p>
+     <p><strong style="color:#fff;">2. Backward Pawn Captures:</strong> Regular pieces move diagonally forward only, but capture forward and backward.</p>
+     <p><strong style="color:#fff;">3. Forced Pawns &amp; King Huffing:</strong> Regular pieces must capture if able (you may pick any path). Kings are optional, but refusing a capture or stopping mid-chain removes ("Huffs") that King.</p>
+     <p><strong style="color:#fff;">4. Win Condition:</strong> Win when the opponent has no legal moves or is reduced to 1 piece.</p>
+    </div>
+    <button type="button" class="btn-primary" style="margin-top:16px;" onclick="DamGame.toggleRules(false)">Got It</button>
+   </div>
+  </div>
+  <!-- Dam Settings Modal -->
+  <div id="dam-settings-modal" class="modal-backdrop hidden" onclick="if(event.target===this)DamGame.toggleSettings(false)">
+   <div class="modal-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e293b;padding-bottom:12px;margin-bottom:14px;">
+     <h3 class="font-display" style="font-size:18px;font-weight:700;">Game Settings</h3>
+     <button type="button" onclick="DamGame.toggleSettings(false)" style="font-size:18px;color:#94a3b8;">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;font-size:13px;">
+     <div>
+      <span style="color:#94a3b8;font-size:12px;display:block;margin-bottom:6px;">Board Theme</span>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+       <button type="button" class="btn-secondary" onclick="DamGame.setTheme('african_wood')">African Wood</button>
+       <button type="button" class="btn-secondary" onclick="DamGame.setTheme('dark_slate')">Midnight Slate</button>
+       <button type="button" class="btn-secondary" onclick="DamGame.setTheme('emerald_classic')">Emerald</button>
+      </div>
+     </div>
+     <label style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#0B1120;border-radius:10px;border:1px solid #1e293b;">
+      <span>Force Maximum Capture Only</span>
+      <input type="checkbox" id="dam-opt-maxcap" onchange="DamGame.setMaxCapture(this.checked)" />
+     </label>
+     <label style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#0B1120;border-radius:10px;border:1px solid #1e293b;">
+      <span>Auto-Flip for 2-Player</span>
+      <input type="checkbox" id="dam-opt-flip" onchange="DamGame.setAutoFlip(this.checked)" />
+     </label>
+    </div>
+    <button type="button" class="btn-primary" style="margin-top:16px;" onclick="DamGame.toggleSettings(false)">Save &amp; Return</button>
+   </div>
+  </div>
+ </div>
+ <!-- VIEW 4: AFRICAN LUDO PRO -->
+ <div id="view-ludo" class="ludo-page hidden">
+  <header class="ludo-header">
+   <div class="ludo-head-in">
+    <div style="display:flex;align-items:center;gap:12px;">
+     <button type="button" class="back-btn" style="background:#2c231d;border-color:#43362c;color:#f7f3eb;" onclick="Hub.goHome()">← Main Page</button>
+     <strong style="font-size:17px;">African Ludo Pro</strong>
+    </div>
+    <nav style="display:flex;align-items:center;gap:14px;font-size:13px;font-weight:600;color:#c2b6a7;">
+     <button type="button" style="color:#fcd34d;" onclick="LudoGame.toggleSetup(true)">⚙ Match Setup</button>
+     <button type="button" onclick="LudoGame.toggleRules(true)">Rules</button>
+     <button type="button" id="ludo-music-btn" style="color:#fcd34d;" onclick="LudoGame.toggleMusic()">Music</button>
+     <button type="button" id="ludo-sfx-btn" onclick="LudoGame.toggleSfx()">SFX</button>
+    </nav>
+    <button type="button" class="back-btn" style="background:#2c231d;border-color:#43362c;color:#f7f3eb;" onclick="LudoGame.reset()">New Match</button>
+   </div>
+  </header>
+  <main class="ludo-arena">
+   <section>
+    <div class="ludo-frame">
+     <div id="ludo-board" class="ludo-board"></div>
+    </div>
+   </section>
+   <aside style="display:flex;flex-direction:column;gap:14px;">
+    <div style="background:#1e1814;border:1px solid #352b23;border-radius:16px;padding:16px;">
+     <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #2e251e;">
+      <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+       <span id="ludo-turn-dot" style="width:12px;height:12px;border-radius:9999px;background:#dc2626;flex-shrink:0;"></span>
+       <span id="ludo-status" class="truncate" style="font-size:14px;font-weight:700;">Red's Turn — Tap Roll Dice</span>
+      </div>
+      <span id="ludo-turn-num" class="font-mono" style="font-size:12px;color:#8e8173;">Turn 1</span>
+     </div>
+     <div id="ludo-meta-line" style="font-size:11px;color:#a89b8c;margin-bottom:12px;display:flex;justify-content:space-between;">
+      <span>1v1 AI · African Home</span><span>Release: 6 Only</span>
+     </div>
+     <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;">
+      <div id="ludo-dice" class="ludo-dice"></div>
+      <button type="button" id="ludo-roll-btn" class="btn-primary" style="background:#f59e0b;color:#0c0a09;font-weight:800;flex:1;">Roll Dice</button>
+     </div>
+     <div id="ludo-actions" style="margin-top:14px;display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+    <div style="background:#1e1814;border:1px solid #352b23;border-radius:16px;padding:14px;">
+     <div style="font-size:12px;font-weight:700;color:#8e8173;margin-bottom:8px;">Players Roster</div>
+     <div id="ludo-roster" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+    <div style="background:#1e1814;border:1px solid #352b23;border-radius:16px;padding:14px;">
+     <div style="font-size:12px;font-weight:700;color:#8e8173;margin-bottom:8px;">Recent Moves</div>
+     <div id="ludo-logs" style="font-size:12px;color:#c2b6a7;display:flex;flex-direction:column;gap:5px;"></div>
+    </div>
+   </aside>
+  </main>
+  <!-- Ludo Match Setup Modal -->
+  <div id="ludo-setup-modal" class="modal-backdrop hidden" onclick="if(event.target===this)LudoGame.toggleSetup(false)">
+   <div class="modal-card ludo-modal-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #342921;padding-bottom:12px;margin-bottom:14px;">
+     <h2 style="font-size:18px;font-weight:800;">Match Setup</h2>
+     <button type="button" onclick="LudoGame.toggleSetup(false)" style="font-size:18px;color:#c2b6a7;">✕</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;font-size:12px;">
+     <div>
+      <div style="font-weight:700;color:#a89b8c;margin-bottom:6px;">Game Mode</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+       <button type="button" class="btn-secondary ludo-mode-btn" data-mode="vs-ai-2p" onclick="LudoGame.setMode('vs-ai-2p')">1v1 AI</button>
+       <button type="button" class="btn-secondary ludo-mode-btn" data-mode="vs-ai-4p" onclick="LudoGame.setMode('vs-ai-4p')">4P AI</button>
+       <button type="button" class="btn-secondary ludo-mode-btn" data-mode="local-2p" onclick="LudoGame.setMode('local-2p')">2P Local</button>
+       <button type="button" class="btn-secondary ludo-mode-btn" data-mode="local-4p" onclick="LudoGame.setMode('local-4p')">4P Local</button>
+      </div>
+     </div>
+     <div>
+      <div style="font-weight:700;color:#a89b8c;margin-bottom:6px;">Rule Preset</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+       <button type="button" class="btn-secondary ludo-preset-btn" data-preset="african_home" onclick="LudoGame.setPreset('african_home')">African Home</button>
+       <button type="button" class="btn-secondary ludo-preset-btn" data-preset="international_classic" onclick="LudoGame.setPreset('international_classic')">International Classic</button>
+      </div>
+     </div>
+     <div>
+      <div style="font-weight:700;color:#a89b8c;margin-bottom:6px;">Yard Release Roll</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+       <button type="button" class="btn-secondary ludo-rel-btn" data-rel="6" onclick="LudoGame.setRelease('6')">6 Only</button>
+       <button type="button" class="btn-secondary ludo-rel-btn" data-rel="1or6" onclick="LudoGame.setRelease('1or6')">1 or 6</button>
+      </div>
+     </div>
+    </div>
+    <button type="button" class="btn-primary" style="margin-top:18px;background:#f59e0b;color:#0c0a09;" onclick="LudoGame.toggleSetup(false)">Done</button>
+   </div>
+  </div>
+  <!-- Ludo Rules Modal -->
+  <div id="ludo-rules-modal" class="modal-backdrop hidden" onclick="if(event.target===this)LudoGame.toggleRules(false)">
+   <div class="modal-card ludo-modal-card" style="max-width:520px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #342921;padding-bottom:12px;margin-bottom:14px;">
+     <h2 style="font-size:18px;font-weight:800;">African Ludo Pro — House Rules</h2>
+     <button type="button" onclick="LudoGame.toggleRules(false)" style="font-size:18px;color:#c2b6a7;">✕</button>
+    </div>
+    <div style="font-size:13px;color:#d6cbbd;line-height:1.55;display:flex;flex-direction:column;gap:8px;">
+     <p><strong style="color:#fff;">1. Yard Release &amp; Bonus Rolls:</strong> Roll 6 (or 1/6) to deploy. Rolling 6, capturing, or reaching Goal grants a bonus roll. Triple-6 passes turn.</p>
+     <p><strong style="color:#fff;">2. African Blockades &amp; Locked Home:</strong> 2+ friendly seeds block opponents. Score 1 chop to unlock Home Corridor (🔓). While locked (🔒), loop around.</p>
+     <p><strong style="color:#fff;">3. Reverse Chop &amp; Home Line Raid:</strong> Chop enemies behind you by exact dice count, or raid an opponent's Home Corridor and return to their entrance.</p>
+     <p><strong style="color:#fff;">4. Annual Journey vs Center Crown:</strong> Once unlocked, enter Home or stay on the outer track. Exact count enters Goal (step 56).</p>
+    </div>
+    <button type="button" class="btn-primary" style="margin-top:16px;background:#f59e0b;color:#0c0a09;" onclick="LudoGame.toggleRules(false)">Got It</button>
+   </div>
+  </div>
+  <!-- Ludo Victory Modal -->
+  <div id="ludo-victory-modal" class="modal-backdrop hidden">
+   <div class="modal-card ludo-modal-card" style="text-align:center;">
+    <h2 id="ludo-win-title" style="font-size:24px;font-weight:800;">Winner!</h2>
+    <p id="ludo-win-sub" style="font-size:13px;color:#c2b6a7;margin-top:6px;"></p>
+    <div id="ludo-win-ranks" style="margin:14px 0;background:#16120f;border:1px solid #2e251e;border-radius:12px;padding:10px 14px;text-align:left;"></div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+     <a id="ludo-go-reward" class="btn-reward" href="#" data-smart-reward="1" target="_blank" rel="noopener noreferrer">🎁 Online Daily Reward / Unlock Pro Theme</a>
+     <button type="button" class="btn-primary" style="background:#f59e0b;color:#0c0a09;" onclick="LudoGame.reset()">Play Again</button>
+    </div>
+   </div>
+  </div>
+ </div>
+ <script>
+  // =========================================================================
+  // ADSTERRA SMART LINK — PASTE YOUR ADSTERRA SMART LINK URL ON THE LINE BELOW
+  // =========================================================================
+  const SMART_LINK_URL = "https://auctionr.org/4/ca121db03e7f248f2c9356409de64707";
+  const SCORE_STORAGE_KEY = "official_studio_hub_scores_v1";
+  const MUTE_STORAGE_KEY = "studio_hub_muted";
+  const FastTouch = {
+   lastTouchAt: 0,
+   markTouch() { this.lastTouchAt = performance.now(); },
+   shouldIgnoreClick() { return (performance.now() - this.lastTouchAt) < 480; },
+   bindTap(el, fn) {
+    if (!el) return;
+    el.addEventListener("touchstart", (e) => {
+     if (e.touches.length > 1) return;
+     e.preventDefault();
+     this.markTouch();
+     fn(e);
+    }, { passive: false });
+    el.addEventListener("click", (e) => {
+     if (this.shouldIgnoreClick()) return;
+     fn(e);
+    });
+   }
+  };
+  function svgUri(svg) {
+   return "data:image/svg+xml;utf8," + encodeURIComponent(svg.trim());
+  }
+  const COVERS = {
+   dam: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2c160b"/><stop offset="1" stop-color="#0f0a07"/></linearGradient></defs><rect width="640" height="400" fill="url(#bg)"/><g transform="translate(145,25)"><rect width="350" height="350" rx="18" fill="#3E1F0E" stroke="#854d27" stroke-width="6"/><g transform="translate(15,15)">${[0,1,2,3,4,5,6,7].map(r=>[0,1,2,3,4,5,6,7].map(c=>`<rect x="${c*40}" y="${r*40}" width="40" height="40" fill="${(r+c)%2===0?'#CFB48F':'#4A2615'}"/>`).join("")).join("")}<circle cx="60" cy="60" r="15" fill="#dc2626" stroke="#fca5a5" stroke-width="2"/><circle cx="140" cy="60" r="15" fill="#dc2626" stroke="#fca5a5" stroke-width="2"/><circle cx="220" cy="100" r="15" fill="#dc2626" stroke="#fbbf24" stroke-width="2.5"/><text x="220" y="106" text-anchor="middle" font-size="16" fill="#fde047">♛</text><circle cx="100" cy="220" r="15" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><circle cx="180" cy="260" r="15" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><circle cx="260" cy="260" r="15" fill="#f8fafc" stroke="#fbbf24" stroke-width="2.5"/><text x="260" y="266" text-anchor="middle" font-size="16" fill="#b45309">♛</text></g></g></svg>`),
+   coins: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400"><defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B1120"/><stop offset="1" stop-color="#1e293b"/></linearGradient></defs><rect width="640" height="400" fill="url(#sky)"/><circle cx="160" cy="110" r="24" fill="#fbbf24" stroke="#fef08a" stroke-width="4"/><text x="160" y="118" text-anchor="middle" font-weight="800" font-size="22" fill="#78350f">$</text><polygon points="320,58 344,82 320,106 296,82" fill="#34d399" stroke="#a7f3d0" stroke-width="3"/><circle cx="470" cy="135" r="22" fill="#f59e0b" stroke="#fde68a" stroke-width="3"/><text x="470" y="143" text-anchor="middle" font-weight="800" font-size="18" fill="#451a03">♛</text><circle cx="240" cy="215" r="20" fill="#1e293b" stroke="#fb7185" stroke-width="3"/><line x1="240" y1="195" x2="248" y2="181" stroke="#fbbf24" stroke-width="3"/><rect x="235" y="315" width="170" height="32" rx="14" fill="#10b981" stroke="#a7f3d0" stroke-width="3"/><rect x="0" y="378" width="640" height="22" fill="#0f172a"/></svg>`),
+   ludo: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400"><rect width="640" height="400" fill="#191512"/><g transform="translate(160,40)"><rect width="320" height="320" rx="16" fill="#faf6ee" stroke="#4a382b" stroke-width="8"/><rect x="8" y="8" width="122" height="122" fill="#b91c1c"/><rect x="190" y="8" width="122" height="122" fill="#15803d"/><rect x="8" y="190" width="122" height="122" fill="#2563eb"/><rect x="190" y="190" width="122" height="122" fill="#ca8a04"/><rect x="28" y="28" width="82" height="82" rx="10" fill="#faf6ee"/><rect x="210" y="28" width="82" height="82" rx="10" fill="#faf6ee"/><rect x="28" y="210" width="82" height="82" rx="10" fill="#faf6ee"/><rect x="210" y="210" width="82" height="82" rx="10" fill="#faf6ee"/><polygon points="130,130 160,160 130,190" fill="#dc2626"/><polygon points="130,130 190,130 160,160" fill="#16a34a"/><polygon points="190,130 190,190 160,160" fill="#eab308"/><polygon points="130,190 190,190 160,160" fill="#2563eb"/><circle cx="160" cy="160" r="14" fill="#faf6ee" stroke="#44403c" stroke-width="2"/><text x="160" y="166" text-anchor="middle" font-size="16" fill="#b45309">♛</text></g></svg>`)
+  };
+  const AudioFX = {
+   ctx: null,
+   muted: localStorage.getItem(MUTE_STORAGE_KEY) === "true",
+   getCtx() {
+    if (this.muted) return null;
+    if (!this.ctx) {
+     const AC = window.AudioContext || window.webkitAudioContext;
+     if (AC) this.ctx = new AC();
+    }
+    if (this.ctx && this.ctx.state === "suspended") this.ctx.resume().catch(() => {});
+    return this.ctx;
+   },
+   tone(freq, dur, type = "sine", vol = 0.08, delay = 0) {
+    const c = this.getCtx();
+    if (!c) return;
+    const t = c.currentTime + delay;
+    const o = c.createOscillator();
+    const g = c.createGain();
+    o.type = type;
+    o.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.connect(g);
+    g.connect(c.destination);
+    o.start(t);
+    o.stop(t + dur);
+   },
+   coin(streak = 1) {
+    const pitch = Math.min(200, streak * 10);
+    this.tone(760 + pitch, 0.09, "sine", 0.08);
+    this.tone(1080 + pitch, 0.11, "triangle", 0.07, 0.05);
+   },
+   emerald() {
+    [880, 1108, 1318].forEach((f, i) => this.tone(f, 0.14, "triangle", 0.07, i * 0.045));
+   },
+   bomb() {
+    const c = this.getCtx();
+    if (!c) return;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = "sawtooth";
+    o.frequency.setValueAtTime(140, c.currentTime);
+    o.frequency.exponentialRampToValueAtTime(38, c.currentTime + 0.28);
+    g.gain.setValueAtTime(0.14, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.29);
+    o.connect(g); g.connect(c.destination);
+    o.start(); o.stop(c.currentTime + 0.3);
+   },
+   dam(kind) {
+    if (kind === "move") this.tone(360, 0.06, "triangle", 0.08);
+    else if (kind === "capture") { this.tone(240, 0.11, "sawtooth", 0.09); this.tone(480, 0.09, "sine", 0.06, 0.05); }
+    else if (kind === "king") [523, 659, 784].forEach((f, i) => this.tone(f, 0.16, "triangle", 0.08, i * 0.07));
+    else if (kind === "win") [523, 659, 784, 1046].forEach((f, i) => this.tone(f, 0.25, "triangle", 0.09, i * 0.09));
+    else if (kind === "error") this.tone(180, 0.08, "square", 0.04);
+   }
+  };
+  const CATALOG = [
+   { id: "african-dam", genre: "Board Strategy", title: "African Dam Checker", desc: "Play 8×8 Classic or 10×10 Grand Dam with Flying Kings, forced captures, King Huffing, and 3 computer skill levels.", cta: "Play African Dam", img: COVERS.dam },
+   { id: "coins-catcher", genre: "Arcade Reflex", title: "Coins Catcher", desc: "Catch falling gold, emerald, and crown treasures while dodging iron bombs across 3 selectable speed tiers.", cta: "Play Coins Catcher", img: COVERS.coins },
+   { id: "african-ludo", genre: "Board & Dice", title: "African Ludo Pro", desc: "Authentic 15×15 board with African Home rules: Locked Home until chop, Blockades, Reverse Chop, and Home Line Raid.", cta: "Play African Ludo Pro", img: COVERS.ludo }
+  ];
+  const Hub = {
+   scores: [],
+   init() {
+    document.querySelectorAll("[data-smart-reward]").forEach((el) => { el.href = SMART_LINK_URL; });
+    document.getElementById("dam-menu-art").src = COVERS.dam;
+    this.loadScores();
+    this.renderGrid();
+    this.renderScores();
+    document.getElementById("btn-clear-scores").onclick = () => {
+     localStorage.removeItem(SCORE_STORAGE_KEY);
+     this.loadScores();
+     this.renderScores();
+    };
+   },
+   loadScores() {
+    try {
+     const raw = localStorage.getItem(SCORE_STORAGE_KEY);
+     this.scores = raw ? JSON.parse(raw) : [];
+    } catch { this.scores = []; }
+   },
+   saveScore(entry) {
+    this.loadScores();
+    this.scores = [entry, ...this.scores].sort((a, b) => b.score - a.score).slice(0, 5);
+    try { localStorage.setItem(SCORE_STORAGE_KEY, JSON.stringify(this.scores)); } catch {}
+    this.renderScores();
+   },
+   bestScore() {
+    return this.scores.length ? this.scores[0].score : 0;
+   },
+   renderGrid() {
+    const grid = document.getElementById("hub-games-grid");
+    grid.innerHTML = CATALOG.map((g) => `
+     <article class="game-card">
+      <div class="game-cover"><img src="${g.img}" alt="${g.title}" /></div>
+      <div class="game-body">
+       <div>
+        <p class="game-genre">${g.genre} · <span class="live">Live Now</span></p>
+        <h2 class="game-title font-display">${g.title}</h2>
+        <p class="game-desc">${g.desc}</p>
+       </div>
+       <div class="game-foot">
+        <button type="button" class="btn-primary" onclick="Hub.openGame('${g.id}')">${g.cta} →</button>
+       </div>
+      </div>
+     </article>
+    `).join("");
+   },
+   renderScores() {
+    const best = this.bestScore();
+    document.getElementById("hub-best-label").textContent = "Coins Catcher Best · " + best.toLocaleString();
+    const clearBtn = document.getElementById("btn-clear-scores");
+    const box = document.getElementById("scores-body");
+    if (!this.scores.length) {
+     clearBtn.classList.add("hidden");
+     box.innerHTML = '<div style="padding:20px;border:1px solid #1e293b;border-radius:12px;background:#0B1120;font-size:13px;color:#94a3b8;">No local Coins Catcher runs recorded yet.</div>';
+     return;
+    }
+    clearBtn.classList.remove("hidden");
+    box.innerHTML = `<table class="score-table"><thead><tr><th>#</th><th>Difficulty</th><th style="text-align:right;">Score</th><th style="text-align:right;">Caught</th><th style="text-align:right;">Date</th></tr></thead><tbody>${
+     this.scores.map((s, i) => `<tr><td class="font-mono" style="color:${i===0?'#fcd34d':'#94a3b8'};font-weight:700;">#${i+1}</td><td>${s.difficulty}</td><td class="font-mono" style="text-align:right;font-weight:700;color:#fff;">${s.score.toLocaleString()}</td><td class="font-mono" style="text-align:right;color:#34d399;">${s.coinsCaught}</td><td class="font-mono" style="text-align:right;color:#94a3b8;font-size:12px;">${s.date}</td></tr>`).join("")
+    }</tbody></table>`;
+   },
+   openGame(id) {
+    ["view-hub", "view-coins", "view-dam", "view-ludo"].forEach((v) => document.getElementById(v).classList.add("hidden"));
+    window.scrollTo(0, 0);
+    if (id === "coins-catcher") {
+     document.getElementById("view-coins").classList.remove("hidden");
+     CoinsGame.onShow();
+    } else if (id === "african-dam") {
+     document.getElementById("view-dam").classList.remove("hidden");
+     DamGame.onShow();
+    } else if (id === "african-ludo") {
+     document.getElementById("view-ludo").classList.remove("hidden");
+     LudoGame.onShow();
+    }
+   },
+   goHome() {
+    CoinsGame.stopLoop();
+    DamGame.stopAnim();
+    LudoGame.stopMusic();
+    LudoGame.stopAnims();
+    ["view-coins", "view-dam", "view-ludo"].forEach((v) => document.getElementById(v).classList.add("hidden"));
+    document.getElementById("view-hub").classList.remove("hidden");
+    this.renderScores();
+    window.scrollTo(0, 0);
+   },
+   toast(msg) {
+    const el = document.getElementById("toast");
+    el.textContent = msg;
+    el.classList.remove("hidden");
+    clearTimeout(this._tt);
+    this._tt = setTimeout(() => el.classList.add("hidden"), 2500);
+   }
+  };
+  const CoinsGame = {
+   TIERS: {
+    Standard: { spawnMs: 820, baseSpeed: 210, speedRamp: 6, bombChance: 0.14 },
+    Arcade: { spawnMs: 650, baseSpeed: 265, speedRamp: 9, bombChance: 0.19 },
+    Championship: { spawnMs: 500, baseSpeed: 330, speedRamp: 12, bombChance: 0.25 }
+   },
+   tier: "Standard",
+   phase: "menu",
+   raf: 0,
+   w: 840, h: 480,
+   basketX: 420, basketW: 118, basketH: 22, catchPop: 0,
+   score: 0, best: 0, lives: 3, streak: 0, bestStreak: 0, coins: 0, elapsed: 0,
+   items: [], parts: [], floats: [], keys: new Set(),
+   spawnAcc: 0, lastT: 0, shake: 0, activeTouchId: null,
+   inited: false,
+   onShow() {
+    this.best = Hub.bestScore();
+    document.getElementById("cc-best").textContent = this.best.toLocaleString();
+    document.getElementById("cc-mute-btn").textContent = AudioFX.muted ? "Muted" : "Sound On";
+    if (!this.inited) { this.bindEvents(); this.inited = true; }
+    this.resize();
+    this.showMenu();
+   },
+   bindEvents() {
+    const cvs = document.getElementById("cc-canvas");
+    const setPtr = (cx) => {
+     const rect = cvs.getBoundingClientRect();
+     if (!rect.width) return;
+     const x = ((cx - rect.left) / rect.width) * this.w;
+     this.basketX = Math.max(this.basketW / 2 + 8, Math.min(this.w - this.basketW / 2 - 8, x));
+    };
+    cvs.addEventListener("touchstart", (e) => {
+     if (this.phase !== "playing" || !e.touches.length) return;
+     e.preventDefault();
+     const touch = e.changedTouches[0] || e.touches[0];
+     this.activeTouchId = touch.identifier;
+     setPtr(touch.clientX);
+    }, { passive: false });
+    cvs.addEventListener("touchmove", (e) => {
+     if (this.phase !== "playing" || !e.touches.length) return;
+     e.preventDefault();
+     let touch = null;
+     for (let i = 0; i < e.touches.length; i++) {
+      if (e.touches[i].identifier === this.activeTouchId) { touch = e.touches[i]; break; }
+     }
+     if (!touch) touch = e.touches[0];
+     setPtr(touch.clientX);
+    }, { passive: false });
+    const clearTouch = (e) => {
+     for (let i = 0; i < e.changedTouches.length; i++) {
+      if (e.changedTouches[i].identifier === this.activeTouchId) {
+       this.activeTouchId = null;
+       break;
+      }
+     }
+    };
+    cvs.addEventListener("touchend", clearTouch, { passive: true });
+    cvs.addEventListener("touchcancel", clearTouch, { passive: true });
+    cvs.addEventListener("pointerdown", (e) => {
+     if (e.pointerType === "touch") return;
+     if (this.phase === "playing") setPtr(e.clientX);
+    });
+    cvs.addEventListener("pointermove", (e) => {
+     if (e.pointerType === "touch") return;
+     if (this.phase === "playing") setPtr(e.clientX);
+    });
+    document.addEventListener("visibilitychange", () => {
+     if (!document.hidden && this.phase === "playing") {
+      this.lastT = performance.now();
+     }
+    });
+    window.addEventListener("keydown", (e) => {
+     if (document.getElementById("view-coins").classList.contains("hidden")) return;
+     if (e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "a" || e.key === "A" || e.key === "d" || e.key === "D") this.keys.add(e.key);
+     if ((e.key === " " || e.key === "Escape") && (this.phase === "playing" || this.phase === "paused")) {
+      e.preventDefault(); this.togglePause();
+     }
+    });
+    window.addEventListener("keyup", (e) => this.keys.delete(e.key));
+    window.addEventListener("resize", () => { if (!document.getElementById("view-coins").classList.contains("hidden")) this.resize(); });
+   },
+   resize() {
+    const cvs = document.getElementById("cc-canvas");
+    const box = cvs.parentElement;
+    const w = Math.max(320, Math.min(960, box.clientWidth || 840));
+    const h = Math.round(Math.max(390, Math.min(540, w * 0.58)));
+    this.w = w; this.h = h;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cvs.width = w * dpr; cvs.height = h * dpr;
+    cvs.style.height = h + "px";
+    this.ctx = cvs.getContext("2d");
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.basketX = Math.max(this.basketW / 2 + 8, Math.min(w - this.basketW / 2 - 8, this.basketX));
+    this.draw();
+   },
+   setTier(t, btn) {
+    this.tier = t;
+    document.querySelectorAll("#cc-tiers .tier-btn").forEach((b) => b.classList.remove("active"));
+    if (btn) btn.classList.add("active");
+    this.updateHud();
+   },
+   toggleMute() {
+    AudioFX.muted = !AudioFX.muted;
+    localStorage.setItem(MUTE_STORAGE_KEY, String(AudioFX.muted));
+    document.getElementById("cc-mute-btn").textContent = AudioFX.muted ? "Muted" : "Sound On";
+   },
+   showMenu() {
+    this.stopLoop();
+    this.phase = "menu";
+    document.getElementById("cc-menu-overlay").classList.remove("hidden");
+    document.getElementById("cc-pause-overlay").classList.add("hidden");
+    document.getElementById("cc-gameover-overlay").classList.add("hidden");
+    document.getElementById("cc-pause-btn").classList.add("hidden");
+    this.updateHud();
+    this.draw();
+   },
+   start() {
+    this.stopLoop();
+    this.phase = "playing";
+    this.score = 0; this.lives = 3; this.streak = 0; this.bestStreak = 0; this.coins = 0; this.elapsed = 0;
+    this.items = []; this.parts = []; this.floats = []; this.spawnAcc = 0; this.shake = 0; this.catchPop = 0;
+    this.basketX = this.w / 2;
+    document.getElementById("cc-menu-overlay").classList.add("hidden");
+    document.getElementById("cc-pause-overlay").classList.add("hidden");
+    document.getElementById("cc-gameover-overlay").classList.add("hidden");
+    document.getElementById("cc-pause-btn").classList.remove("hidden");
+    document.getElementById("cc-pause-btn").textContent = "Pause";
+    this.updateHud();
+    this.lastT = performance.now();
+    this.raf = requestAnimationFrame((t) => this.loop(t));
+   },
+   togglePause() {
+    if (this.phase === "playing") {
+     this.phase = "paused";
+     this.stopLoop();
+     document.getElementById("cc-pause-score").textContent = this.score.toLocaleString();
+     document.getElementById("cc-pause-overlay").classList.remove("hidden");
+     document.getElementById("cc-pause-btn").textContent = "Resume";
+    } else if (this.phase === "paused") {
+     this.phase = "playing";
+     document.getElementById("cc-pause-overlay").classList.add("hidden");
+     document.getElementById("cc-pause-btn").textContent = "Pause";
+     this.lastT = performance.now();
+     this.raf = requestAnimationFrame((t) => this.loop(t));
+    }
+   },
+   stopLoop() { if (this.raf) { cancelAnimationFrame(this.raf); this.raf = 0; } },
+   updateHud() {
+    const mult = Math.min(5, 1 + Math.floor(this.streak / 5));
+    document.getElementById("cc-subtitle").innerHTML = `${this.tier} · Multiplier <span class="font-mono" style="color:#fcd34d;">${mult}x</span>`;
+    document.getElementById("cc-score").textContent = this.score.toLocaleString();
+    document.getElementById("cc-best").textContent = Math.max(this.best, this.score).toLocaleString();
+    document.getElementById("cc-lives").textContent = "♥".repeat(this.lives) + "♡".repeat(Math.max(0, 3 - this.lives));
+   },
+   spawn() {
+    const cfg = this.TIERS[this.tier];
+    const r = Math.random();
+    let type = "gold", radius = 15;
+    if (r < cfg.bombChance) { type = "bomb"; radius = 16; }
+    else if (r < cfg.bombChance + 0.04 && this.lives < 3) { type = "heart"; radius = 15; }
+    else if (r < cfg.bombChance + 0.14) { type = "crown"; radius = 17; }
+    else if (r < cfg.bombChance + 0.34) { type = "emerald"; radius = 15; }
+    const spd = cfg.baseSpeed + this.elapsed * cfg.speedRamp + Math.random() * 65;
+    this.items.push({ x: 30 + Math.random() * (this.w - 60), y: -24, r: radius, vy: spd * (type === "crown" ? 1.18 : 1), type });
+   },
+   loop(now) {
+    if (this.phase !== "playing") return;
+    const dt = Math.max(0, Math.min(0.05, (now - this.lastT) / 1000));
+    this.lastT = now;
+    this.elapsed += dt;
+    const moveSpd = 580;
+    if (this.keys.has("ArrowLeft") || this.keys.has("a") || this.keys.has("A")) this.basketX -= moveSpd * dt;
+    if (this.keys.has("ArrowRight") || this.keys.has("d") || this.keys.has("D")) this.basketX += moveSpd * dt;
+    this.basketX = Math.max(this.basketW / 2 + 8, Math.min(this.w - this.basketW / 2 - 8, this.basketX));
+    const cfg = this.TIERS[this.tier];
+    this.spawnAcc += dt * 1000;
+    const interval = Math.max(240, cfg.spawnMs - this.elapsed * 7);
+    if (this.spawnAcc >= interval) { this.spawnAcc -= interval; this.spawn(); }
+    const bTop = this.h - 46;
+    const bLeft = this.basketX - this.basketW / 2;
+    const bRight = this.basketX + this.basketW / 2;
+    const next = [];
+    for (const it of this.items) {
+     it.y += it.vy * dt;
+     const hit = it.y + it.r >= bTop && it.y - it.r <= bTop + this.basketH && it.x + it.r >= bLeft && it.x - it.r <= bRight;
+     if (hit) {
+      if (it.type === "bomb") {
+       this.lives -= 1; this.streak = 0; this.shake = 0.25;
+       AudioFX.bomb();
+       this.floats.push({ x: it.x, y: bTop - 8, text: "-1 Life!", color: "#fb7185", life: 0.9 });
+       this.burst(it.x, bTop, "#fb7185", 14);
+      } else if (it.type === "heart") {
+       this.lives = Math.min(3, this.lives + 1); this.catchPop = 1;
+       AudioFX.emerald();
+       this.floats.push({ x: it.x, y: bTop - 8, text: "+1 Life", color: "#fb7185", life: 0.9 });
+       this.burst(it.x, bTop, "#fb7185", 12);
+      } else {
+       this.streak += 1; this.bestStreak = Math.max(this.bestStreak, this.streak); this.coins += 1; this.catchPop = 1;
+       const mult = Math.min(5, 1 + Math.floor(this.streak / 5));
+       const base = it.type === "crown" ? 50 : it.type === "emerald" ? 30 : 10;
+       const pts = base * mult;
+       this.score += pts;
+       it.type === "gold" ? AudioFX.coin(this.streak) : AudioFX.emerald();
+       const col = it.type === "crown" ? "#fbbf24" : it.type === "emerald" ? "#34d399" : "#fde047";
+       this.floats.push({ x: it.x, y: bTop - 8, text: "+" + pts, color: col, life: 0.8 });
+       this.burst(it.x, bTop, col, 10);
+      }
+      this.updateHud();
+      if (this.lives <= 0) { this.gameOver(); return; }
+     } else if (it.y - it.r > this.h) {
+      if (it.type !== "bomb" && it.type !== "heart") { this.streak = 0; this.updateHud(); }
+     } else {
+      next.push(it);
+     }
+    }
+    this.items = next;
+    this.parts = this.parts.filter((p) => { p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; return p.life > 0; });
+    this.floats = this.floats.filter((f) => { f.y -= 42 * dt; f.life -= dt; return f.life > 0; });
+    if (this.shake > 0) this.shake = Math.max(0, this.shake - dt);
+    if (this.catchPop > 0) this.catchPop = Math.max(0, this.catchPop - dt * 6);
+    this.draw(now);
+    this.raf = requestAnimationFrame((t) => this.loop(t));
+   },
+   burst(x, y, color, count) {
+    for (let i = 0; i < count; i++) {
+     const a = Math.random() * Math.PI * 2, s = 60 + Math.random() * 140;
+     this.parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 40, color, life: 0.45 });
+    }
+   },
+   gameOver() {
+    this.stopLoop();
+    this.phase = "gameover";
+    document.getElementById("cc-pause-btn").classList.add("hidden");
+    const today = new Date().toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    if (this.score > 0) Hub.saveScore({ score: this.score, coinsCaught: this.coins, difficulty: this.tier, date: today });
+    this.best = Math.max(this.best, this.score);
+    document.getElementById("cc-go-sub").textContent = this.tier + " Tier · Session saved locally";
+    document.getElementById("cc-go-score").textContent = this.score.toLocaleString();
+    document.getElementById("cc-go-coins").textContent = String(this.coins);
+    document.getElementById("cc-go-streak").textContent = String(this.bestStreak);
+    document.getElementById("cc-gameover-overlay").classList.remove("hidden");
+    this.draw();
+   },
+   draw(now = performance.now()) {
+    const c = this.ctx; if (!c) return;
+    c.save();
+    if (this.shake > 0) {
+     const mag = (this.shake / 0.25) * 6;
+     const t = now * 0.085;
+     c.translate(Math.sin(t) * mag, Math.cos(t * 1.3) * mag * 0.6);
+    }
+    const g = c.createLinearGradient(0, 0, 0, this.h);
+    g.addColorStop(0, "#0B1120"); g.addColorStop(1, "#1e293b");
+    c.fillStyle = g; c.fillRect(0, 0, this.w, this.h);
+    c.fillStyle = "#0f172a"; c.fillRect(0, this.h - 22, this.w, 22);
+    for (const it of this.items) {
+     c.save(); c.translate(it.x, it.y);
+     if (it.type === "gold") {
+      c.fillStyle = "#fbbf24"; c.strokeStyle = "#fef08a"; c.lineWidth = 2.5;
+      c.beginPath(); c.arc(0, 0, it.r, 0, Math.PI * 2); c.fill(); c.stroke();
+      c.fillStyle = "#78350f"; c.font = "bold 14px sans-serif"; c.textAlign = "center"; c.textBaseline = "middle"; c.fillText("$", 0, 1);
+     } else if (it.type === "emerald") {
+      c.fillStyle = "#34d399"; c.strokeStyle = "#a7f3d0"; c.lineWidth = 2;
+      c.beginPath(); c.moveTo(0, -it.r); c.lineTo(it.r, 0); c.lineTo(0, it.r); c.lineTo(-it.r, 0); c.closePath(); c.fill(); c.stroke();
+     } else if (it.type === "crown") {
+      c.fillStyle = "#f59e0b"; c.strokeStyle = "#fde68a"; c.lineWidth = 2;
+      c.beginPath(); c.arc(0, 0, it.r, 0, Math.PI * 2); c.fill(); c.stroke();
+      c.fillStyle = "#451a03"; c.font = "bold 15px sans-serif"; c.textAlign = "center"; c.textBaseline = "middle"; c.fillText("♛", 0, 1);
+     } else if (it.type === "heart") {
+      c.fillStyle = "#fb7185"; c.font = "22px sans-serif"; c.textAlign = "center"; c.textBaseline = "middle"; c.fillText("♥", 0, 0);
+     } else {
+      c.fillStyle = "#1e293b"; c.strokeStyle = "#fb7185"; c.lineWidth = 2.5;
+      c.beginPath(); c.arc(0, 0, it.r, 0, Math.PI * 2); c.fill(); c.stroke();
+      c.strokeStyle = "#fbbf24"; c.beginPath(); c.moveTo(0, -it.r); c.lineTo(6, -it.r - 8); c.stroke();
+     }
+     c.restore();
+    }
+    // Basket
+    const popScale = 1 + Math.sin(this.catchPop * Math.PI) * 0.05;
+    const bw = this.basketW * popScale, bh = this.basketH * (1 - (popScale - 1) * 0.6);
+    const bx = this.basketX - bw / 2, by = this.h - 46 + (this.basketH - bh) * 0.5;
+    c.fillStyle = "#10b981"; c.strokeStyle = "#a7f3d0"; c.lineWidth = 2.5;
+    c.beginPath(); c.roundRect(bx, by, bw, bh, 10); c.fill(); c.stroke();
+    for (const p of this.parts) {
+     c.globalAlpha = Math.max(0, p.life * 2); c.fillStyle = p.color;
+     c.beginPath(); c.arc(p.x, p.y, 3.5, 0, Math.PI * 2); c.fill();
+    }
+    c.globalAlpha = 1;
+    for (const f of this.floats) {
+     c.globalAlpha = Math.min(1, f.life * 1.5); c.fillStyle = f.color;
+     c.font = "bold 15px monospace"; c.textAlign = "center"; c.fillText(f.text, f.x, f.y);
+    }
+    c.restore();
+   }
+  };
+  // =========================================================================
+  // AFRICAN DAM CHECKER (8x8 & 10x10, Flying Kings, King Huffing, Minimax AI)
+  // =========================================================================
+  const DamGame = {
+   screen: "menu", size: 8, mode: "ai", diff: "medium", theme: "african_wood",
+   enforceMax: false, autoFlip: false,
+   board: [], turn: "R", selected: null, validMoves: [], mustChain: false,
+   winner: null, winReason: "", huffedPos: null, huffedPositions: [],
+   lastMove: null, history: [], logs: [], counts: { r: 12, w: 12, rk: 0, wk: 0 },
+   nonCaptureMoves: 0, repMap: {}, aiTimer: 0, moveRaf: 0, inited: false,
+   onShow() {
+    document.getElementById("dam-sound-btn").textContent = AudioFX.muted ? "Muted" : "Sound On";
+    if (!this.inited) { this.bindGridEvents(); this.inited = true; }
+    this.returnToMenu();
+   },
+   bindGridEvents() {
+    const grid = document.getElementById("dam-grid");
+    const triggerSq = (target) => {
+     const btn = target && target.closest ? target.closest(".dam-sq") : null;
+     if (!btn) return;
+     const r = Number(btn.dataset.r), c = Number(btn.dataset.c);
+     if (!Number.isNaN(r) && !Number.isNaN(c)) this.clickSquare(r, c);
+    };
+    grid.addEventListener("touchstart", (e) => {
+     if (e.touches.length > 1) return;
+     e.preventDefault();
+     FastTouch.markTouch();
+     triggerSq(e.target);
+    }, { passive: false });
+    grid.addEventListener("click", (e) => {
+     if (FastTouch.shouldIgnoreClick()) return;
+     triggerSq(e.target);
+    });
+   },
+   stopAnim() {
+    if (this.moveRaf) { cancelAnimationFrame(this.moveRaf); this.moveRaf = 0; }
+   },
+   animateMoveRaf(from, to) {
+    this.stopAnim();
+    if (!from || !to) return;
+    const grid = document.getElementById("dam-grid");
+    const destSq = grid.querySelector(`.dam-sq[data-r="${to[0]}"][data-c="${to[1]}"]`);
+    const pieceEl = destSq ? destSq.querySelector(".dam-piece") : null;
+    if (!pieceEl) return;
+    const sqRect = destSq.getBoundingClientRect();
+    if (!sqRect.width || !sqRect.height) return;
+    const flip = this.autoFlip && this.mode === "pvp" && this.turn === "W";
+    const vrFrom = flip ? this.size - 1 - from[0] : from[0];
+    const vcFrom = flip ? this.size - 1 - from[1] : from[1];
+    const vrTo = flip ? this.size - 1 - to[0] : to[0];
+    const vcTo = flip ? this.size - 1 - to[1] : to[1];
+    const dx = (vcFrom - vcTo) * sqRect.width;
+    const dy = (vrFrom - vrTo) * sqRect.height;
+    const start = performance.now();
+    const duration = 180;
+    const step = (now) => {
+     const t = Math.min(1, (now - start) / duration);
+     const ease = 1 - Math.pow(1 - t, 3);
+     const inv = 1 - ease;
+     const sc = 1 + 0.08 * Math.sin(t * Math.PI);
+     pieceEl.style.transform = `translate3d(${(dx * inv).toFixed(2)}px, ${(dy * inv).toFixed(2)}px, 0) scale(${sc.toFixed(3)})`;
+     if (t < 1) {
+      this.moveRaf = requestAnimationFrame(step);
+     } else {
+      pieceEl.style.transform = "";
+      this.moveRaf = 0;
+     }
+    };
+    pieceEl.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
+    this.moveRaf = requestAnimationFrame(step);
+   },
+   setBoardSize(s) {
+    this.size = s;
+    document.getElementById("dam-size-8").style.borderColor = s === 8 ? "#34d399" : "#334155";
+    document.getElementById("dam-size-8").style.background = s === 8 ? "rgba(16,185,129,.14)" : "#1E293B";
+    document.getElementById("dam-size-10").style.borderColor = s === 10 ? "#34d399" : "#334155";
+    document.getElementById("dam-size-10").style.background = s === 10 ? "rgba(16,185,129,.14)" : "#1E293B";
+   },
+   setDifficulty(d) {
+    this.diff = d;
+    ["easy", "medium", "hard"].forEach((k) => {
+     const b = document.getElementById("dam-diff-" + k);
+     b.style.borderColor = k === d ? "#fbbf24" : "#334155";
+     b.style.background = k === d ? "rgba(245,158,11,.15)" : "#1E293B";
+    });
+   },
+   setTheme(t) { this.theme = t; this.renderBoard(); },
+   setMaxCapture(v) { this.enforceMax = v; },
+   setAutoFlip(v) { this.autoFlip = v; this.renderBoard(); },
+   toggleRules(open) { document.getElementById("dam-rules-modal").classList.toggle("hidden", !open); },
+   toggleSettings(open) { document.getElementById("dam-settings-modal").classList.toggle("hidden", !open); },
+   toggleSound() {
+    AudioFX.muted = !AudioFX.muted;
+    localStorage.setItem(MUTE_STORAGE_KEY, String(AudioFX.muted));
+    document.getElementById("dam-sound-btn").textContent = AudioFX.muted ? "Muted" : "Sound On";
+   },
+   handleHeaderBack() {
+    clearTimeout(this.aiTimer);
+    this.stopAnim();
+    if (this.screen === "play") this.returnToMenu();
+    else Hub.goHome();
+   },
+   returnToMenu() {
+    clearTimeout(this.aiTimer);
+    this.stopAnim();
+    this.screen = "menu";
+    document.getElementById("dam-menu-view").classList.remove("hidden");
+    document.getElementById("dam-play-view").classList.add("hidden");
+    document.getElementById("dam-gameover-modal").classList.add("hidden");
+    document.getElementById("dam-back-btn").textContent = "← Main Page";
+    document.getElementById("dam-header-sub").textContent = "8×8 & 10×10 Checkers · Flying Kings & Multi-Jump";
+   },
+   startMatch(mode) {
+    this.mode = mode;
+    this.screen = "play";
+    document.getElementById("dam-menu-view").classList.add("hidden");
+    document.getElementById("dam-play-view").classList.remove("hidden");
+    document.getElementById("dam-back-btn").textContent = "← Game Menu";
+    document.getElementById("dam-header-sub").textContent = this.size + "×" + this.size + " · " + (mode === "ai" ? "vs AI (" + this.diff + ")" : "2-Player Local");
+    this.resetMatch();
+   },
+   createBoard(sz) {
+    const b = Array.from({ length: sz }, () => Array(sz).fill(null));
+    const rows = sz === 10 ? 4 : 3;
+    for (let r = 0; r < sz; r++) {
+     for (let c = 0; c < sz; c++) {
+      if ((r + c) % 2 === 1) {
+       if (r < rows) b[r][c] = { color: "W", isKing: false };
+       else if (r >= sz - rows) b[r][c] = { color: "R", isKing: false };
+      }
+     }
+    }
+    return b;
+   },
+   cloneBoard(b) { return b.map((row) => row.map((cell) => (cell ? { ...cell } : null))); },
+   resetMatch() {
+    clearTimeout(this.aiTimer);
+    this.stopAnim();
+    this.board = this.createBoard(this.size);
+    this.turn = "R"; this.selected = null; this.validMoves = []; this.mustChain = false;
+    this.winner = null; this.winReason = ""; this.huffedPos = null; this.huffedPositions = [];
+    this.lastMove = null; this.history = []; this.logs = []; this.nonCaptureMoves = 0; this.repMap = {};
+    document.getElementById("dam-gameover-modal").classList.add("hidden");
+    this.updateCounts();
+    this.renderAll();
+   },
+   updateCounts() {
+    let r = 0, w = 0, rk = 0, wk = 0;
+    for (let row = 0; row < this.size; row++) {
+     for (let col = 0; col < this.size; col++) {
+      const p = this.board[row][col];
+      if (!p) continue;
+      if (p.color === "R") { r++; if (p.isKing) rk++; }
+      else { w++; if (p.isKing) wk++; }
+     }
+    }
+    this.counts = { r, w, rk, wk };
+   },
+   getSingleCaptures(b, r, c, piece, prevDir = null) {
+    const sz = b.length, res = [];
+    const dirs = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+    if (!piece.isKing) {
+     for (const [dr, dc] of dirs) {
+      const mr = r + dr, mc = c + dc, tr = r + 2 * dr, tc = c + 2 * dc;
+      if (tr >= 0 && tr < sz && tc >= 0 && tc < sz) {
+       const mid = b[mr][mc];
+       if (mid && mid.color !== piece.color && !b[tr][tc]) {
+        res.push({ from: [r, c], to: [tr, tc], captures: [[mr, mc]], dir: [dr, dc], isCapture: true });
+       }
+      }
+     }
+    } else {
+     for (const [dr, dc] of dirs) {
+      if (prevDir && prevDir[0] === -dr && prevDir[1] === -dc) continue;
+      let cr = r + dr, cc = c + dc, enemy = null;
+      while (cr >= 0 && cr < sz && cc >= 0 && cc < sz) {
+       const cell = b[cr][cc];
+       if (cell) {
+        if (cell.color === piece.color || enemy) break;
+        enemy = [cr, cc];
+       } else if (enemy) {
+        res.push({ from: [r, c], to: [cr, cc], captures: [enemy], dir: [dr, dc], isCapture: true });
+       }
+       cr += dr; cc += dc;
+      }
+     }
+    }
+    return res;
+   },
+   getQuietMoves(b, r, c, piece) {
+    const sz = b.length, res = [];
+    if (!piece.isKing) {
+     const dr = piece.color === "R" ? -1 : 1;
+     for (const dc of [-1, 1]) {
+      const tr = r + dr, tc = c + dc;
+      if (tr >= 0 && tr < sz && tc >= 0 && tc < sz && !b[tr][tc]) {
+       res.push({ from: [r, c], to: [tr, tc], captures: [], isCapture: false });
+      }
+     }
+    } else {
+     for (const [dr, dc] of [[-1, -1], [-1, 1], [1, -1], [1, 1]]) {
+      let cr = r + dr, cc = c + dc;
+      while (cr >= 0 && cr < sz && cc >= 0 && cc < sz && !b[cr][cc]) {
+       res.push({ from: [r, c], to: [cr, cc], captures: [], isCapture: false });
+       cr += dr; cc += dc;
+      }
+     }
+    }
+    return res;
+   },
+   expandCaps(b, r, c, piece, prevDir, accCaps) {
+    const steps = this.getSingleCaptures(b, r, c, piece, prevDir);
+    if (!steps.length) return [];
+    const out = [];
+    for (const st of steps) {
+     const nb = this.cloneBoard(b);
+     const cap = st.captures[0];
+     nb[cap[0]][cap[1]] = null;
+     nb[st.to[0]][st.to[1]] = { ...piece };
+     nb[r][c] = null;
+     const allCaps = [...accCaps, cap];
+     const promo = (!piece.isKing) && ((piece.color === "R" && st.to[0] === 0) || (piece.color === "W" && st.to[0] === b.length - 1));
+     const cont = promo ? [] : this.expandCaps(nb, st.to[0], st.to[1], piece, st.dir, allCaps);
+     if (cont.length) {
+      for (const tail of cont) out.push({ from: [r, c], to: tail.to, captures: tail.captures, isCapture: true });
+     } else {
+      out.push({ from: [r, c], to: st.to, captures: allCaps, isCapture: true });
+     }
+    }
+    return out;
+   },
+   getCapturePolicy(b, color) {
+    let pawnCaps = false, kingCapPositions = [];
+    for (let r = 0; r < b.length; r++) {
+     for (let c = 0; c < b.length; c++) {
+      const p = b[r][c];
+      if (p && p.color === color && this.getSingleCaptures(b, r, c, p).length) {
+       if (!p.isKing) pawnCaps = true;
+       else kingCapPositions.push([r, c]);
+      }
+     }
+    }
+    return { pawnCaps, kingCapPositions };
+   },
+   getAllLegalMoves(b, color) {
+    const pol = this.getCapturePolicy(b, color);
+    let fullCaps = [], quiet = [];
+    for (let r = 0; r < b.length; r++) {
+     for (let c = 0; c < b.length; c++) {
+      const p = b[r][c];
+      if (!p || p.color !== color) continue;
+      const caps = this.expandCaps(b, r, c, p, null, []);
+      if (caps.length) fullCaps.push(...caps);
+      if (!pol.pawnCaps) {
+       const qm = this.getQuietMoves(b, r, c, p);
+       for (const m of qm) {
+        if (pol.kingCapPositions.length) {
+         m.huffedKingPos = (p.isKing && pol.kingCapPositions.some(([kr, kc]) => kr === r && kc === c)) ? [r, c] : pol.kingCapPositions[0];
+        }
+        quiet.push(m);
+       }
+      }
+     }
+    }
+    if (this.enforceMax && fullCaps.length) {
+     const maxLen = Math.max(...fullCaps.map((m) => m.captures.length));
+     return fullCaps.filter((m) => m.captures.length === maxLen);
+    }
+    return pol.pawnCaps ? fullCaps : [...fullCaps, ...quiet];
+   },
+   getValidMovesForSq(r, c) {
+    const p = this.board[r][c];
+    if (!p || p.color !== this.turn) return [];
+    const pol = this.getCapturePolicy(this.board, this.turn);
+    const caps = this.getSingleCaptures(this.board, r, c, p);
+    if (pol.pawnCaps) return !p.isKing ? caps : [];
+    const quiet = this.getQuietMoves(this.board, r, c, p).map((m) => {
+     if (pol.kingCapPositions.length) {
+      m.huffedKingPos = (p.isKing && pol.kingCapPositions.some(([kr, kc]) => kr === r && kc === c)) ? [r, c] : pol.kingCapPositions[0];
+     }
+     return m;
+    });
+    return [...caps, ...quiet];
+   },
+   applyMove(b, m) {
+    const nb = this.cloneBoard(b), sz = nb.length;
+    const p = nb[m.from[0]][m.from[1]];
+    nb[m.from[0]][m.from[1]] = null;
+    for (const [cr, cc] of m.captures) nb[cr][cc] = null;
+    let promo = false;
+    if (p && !p.isKing && ((p.color === "R" && m.to[0] === 0) || (p.color === "W" && m.to[0] === sz - 1))) {
+     p.isKing = true; promo = true;
+    }
+    nb[m.to[0]][m.to[1]] = p;
+    if (m.huffedKingPos && !(m.from[0] === m.huffedKingPos[0] && m.from[1] === m.huffedKingPos[1])) {
+     nb[m.huffedKingPos[0]][m.huffedKingPos[1]] = null;
+    } else if (m.huffedKingPos) {
+     nb[m.to[0]][m.to[1]] = null;
+    }
+    return { board: nb, promo };
+   },
+   nota([r, c]) { return String.fromCharCode(65 + c) + (this.size - r); },
+   pushSnapshot() {
+    this.history.push({
+     board: this.cloneBoard(this.board), turn: this.turn, logs: [...this.logs],
+     lastMove: this.lastMove, nonCaptureMoves: this.nonCaptureMoves, repMap: { ...this.repMap }
+    });
+   },
+   undo() {
+    if (this.winner || !this.history.length || this.mustChain) return;
+    clearTimeout(this.aiTimer);
+    this.stopAnim();
+    let snap = this.history.pop();
+    if (this.mode === "ai" && snap.turn === "W" && this.history.length) snap = this.history.pop();
+    this.board = snap.board; this.turn = snap.turn; this.logs = snap.logs;
+    this.lastMove = snap.lastMove; this.nonCaptureMoves = snap.nonCaptureMoves; this.repMap = snap.repMap;
+    this.selected = null; this.validMoves = []; this.mustChain = false; this.huffedPos = null; this.huffedPositions = [];
+    this.updateCounts(); this.renderAll();
+   },
+   stopChainEarly() {
+    if (!this.mustChain || !this.selected) return;
+    const [r, c] = this.selected;
+    const p = this.board[r][c];
+    if (!p || !p.isKing) return;
+    this.board[r][c] = null;
+    this.logs.unshift("King at " + this.nota([r, c]) + " huffed (stopped chain)");
+    AudioFX.dam("error");
+    this.finishTurn(true, false);
+   },
+   finishTurn(captured, promoted) {
+    this.selected = null; this.validMoves = []; this.mustChain = false;
+    this.nonCaptureMoves = (captured || promoted) ? 0 : this.nonCaptureMoves + 1;
+    this.updateCounts();
+    const next = this.turn === "R" ? "W" : "R";
+    const key = this.board.map((row) => row.map((c) => c ? (c.color + (c.isKing ? "K" : "P")) : ".").join("")).join("/") + ":" + next;
+    this.repMap[key] = (this.repMap[key] || 0) + 1;
+    if (this.counts.w <= 1) return this.endGame("R", "White reduced to " + this.counts.w + " piece.");
+    if (this.counts.r <= 1) return this.endGame("W", "Red reduced to " + this.counts.r + " piece.");
+    if (this.repMap[key] >= 3) return this.endGame("D", "Draw by 3-fold repetition.");
+    if (this.nonCaptureMoves >= 25) return this.endGame("D", "Draw by 25 non-capture moves.");
+    const legal = this.getAllLegalMoves(this.board, next);
+    if (!legal.length) return this.endGame(this.turn, (next === "R" ? "Red" : "White") + " has no legal moves.");
+    this.turn = next;
+    const pol = this.getCapturePolicy(this.board, next);
+    this.huffedPositions = (!pol.pawnCaps && pol.kingCapPositions.length) ? pol.kingCapPositions : [];
+    this.renderAll();
+    if (this.mode === "ai" && this.turn === "W" && !this.winner) {
+     this.aiTimer = setTimeout(() => this.runAI(), 420);
+    }
+   },
+   endGame(w, reason) {
+    this.winner = w; this.winReason = reason;
+    AudioFX.dam("win");
+    this.renderAll();
+    document.getElementById("dam-go-title").textContent = w === "D" ? "Match Drawn!" : (w === "R" ? "Red Victory!" : (this.mode === "ai" ? "AI Victory!" : "White Victory!"));
+    document.getElementById("dam-go-reason").textContent = reason;
+    document.getElementById("dam-gameover-modal").classList.remove("hidden");
+   },
+   clickSquare(r, c) {
+    if (this.winner || (this.mode === "ai" && this.turn === "W")) return;
+    const mv = this.validMoves.find((m) => m.to[0] === r && m.to[1] === c);
+    if (mv) {
+     const animFrom = mv.from, animTo = mv.to;
+     if (!this.mustChain) this.pushSnapshot();
+     const { board: nb, promo } = this.applyMove(this.board, mv);
+     this.board = nb;
+     this.lastMove = { from: mv.from, to: mv.to };
+     this.logs.unshift((this.turn === "R" ? "Red " : "White ") + this.nota(mv.from) + (mv.isCapture ? "×" : "-") + this.nota(mv.to));
+     if (promo) AudioFX.dam("king");
+     else AudioFX.dam(mv.isCapture ? "capture" : "move");
+     const movedPiece = this.board[mv.to[0]][mv.to[1]];
+     if (mv.isCapture && !promo && movedPiece) {
+      const nextCaps = this.getSingleCaptures(this.board, mv.to[0], mv.to[1], movedPiece, mv.dir);
+      if (nextCaps.length) {
+       this.selected = mv.to; this.validMoves = nextCaps; this.mustChain = true;
+       this.updateCounts(); this.renderAll();
+       this.animateMoveRaf(animFrom, animTo);
+       return;
+      }
+     }
+     this.finishTurn(mv.isCapture, promo);
+     this.animateMoveRaf(animFrom, animTo);
+     return;
+    }
+    if (this.mustChain) { AudioFX.dam("error"); return; }
+    const p = this.board[r][c];
+    if (p && p.color === this.turn) {
+     const moves = this.getValidMovesForSq(r, c);
+     if (!moves.length) { AudioFX.dam("error"); Hub.toast("A mandatory pawn capture exists elsewhere!"); return; }
+     this.selected = [r, c]; this.validMoves = moves;
+     this.renderAll();
+    } else {
+     this.selected = null; this.validMoves = []; this.renderAll();
+    }
+   },
+   evalBoard(b) {
+    let score = 0; const sz = b.length;
+    for (let r = 0; r < sz; r++) {
+     for (let c = 0; c < sz; c++) {
+      const p = b[r][c]; if (!p) continue;
+      const v = p.isKing ? 550 : 120 + (p.color === "W" ? r * 8 : (sz - 1 - r) * 8);
+      score += p.color === "W" ? v : -v;
+     }
+    }
+    return score;
+   },
+   minimax(b, depth, alpha, beta, maxing) {
+    const moves = this.getAllLegalMoves(b, maxing ? "W" : "R");
+    if (depth <= 0 || !moves.length) return { score: !moves.length ? (maxing ? -9999 : 9999) : this.evalBoard(b) };
+    let best = moves[0];
+    if (maxing) {
+     let val = -Infinity;
+     for (const m of moves) {
+      const { board: nb } = this.applyMove(b, m);
+      const s = this.minimax(nb, depth - 1, alpha, beta, false).score;
+      if (s > val) { val = s; best = m; }
+      alpha = Math.max(alpha, val); if (beta <= alpha) break;
+     }
+     return { score: val, move: best };
+    } else {
+     let val = Infinity;
+     for (const m of moves) {
+      const { board: nb } = this.applyMove(b, m);
+      const s = this.minimax(nb, depth - 1, alpha, beta, true).score;
+      if (s < val) { val = s; best = m; }
+      beta = Math.min(beta, val); if (beta <= alpha) break;
+     }
+     return { score: val, move: best };
+    }
+   },
+   runAI() {
+    const moves = this.getAllLegalMoves(this.board, "W");
+    if (!moves.length) return;
+    let chosen = moves[Math.floor(Math.random() * moves.length)];
+    if (this.diff === "medium") chosen = this.minimax(this.board, 2, -Infinity, Infinity, true).move || chosen;
+    else if (this.diff === "hard") chosen = this.minimax(this.board, 4, -Infinity, Infinity, true).move || chosen;
+    this.pushSnapshot();
+    const { board: nb, promo } = this.applyMove(this.board, chosen);
+    this.board = nb; this.lastMove = { from: chosen.from, to: chosen.to };
+    this.logs.unshift("AI " + this.nota(chosen.from) + (chosen.isCapture ? "×" : "-") + this.nota(chosen.to));
+    AudioFX.dam(promo ? "king" : chosen.isCapture ? "capture" : "move");
+    this.finishTurn(chosen.isCapture, promo);
+    this.animateMoveRaf(chosen.from, chosen.to);
+   },
+   hint() {
+    if (this.winner || (this.mode === "ai" && this.turn === "W")) return;
+    const m = this.minimax(this.board, 3, -Infinity, Infinity, this.turn === "W").move;
+    if (!m) return;
+    this.selected = m.from; this.validMoves = this.getValidMovesForSq(m.from[0], m.from[1]);
+    this.renderAll();
+    Hub.toast("Suggested: " + this.nota(m.from) + " → " + this.nota(m.to));
+   },
+   renderAll() {
+    this.renderBoard();
+    document.getElementById("dam-stats-r").textContent = `${this.counts.r} Pieces · ${this.counts.rk} Kings`;
+    document.getElementById("dam-stats-w").textContent = this.mode === "ai" ? "AI (White)" : "WHITE";
+    document.getElementById("dam-counts-w").textContent = `${this.counts.w} Pieces · ${this.counts.wk} Kings`;
+    document.getElementById("dam-card-r").style.borderColor = this.turn === "R" ? "rgba(244,63,94,.65)" : "#1e293b";
+    document.getElementById("dam-card-w").style.borderColor = this.turn === "W" ? "rgba(255,255,255,.55)" : "#1e293b";
+    document.getElementById("dam-move-count").textContent = String(this.logs.length);
+    document.getElementById("dam-moves-list").innerHTML = this.logs.slice(0, 40).map((l, i) => `<div>#${this.logs.length - i} ${l}</div>`).join("") || '<span style="color:#64748b;">No moves played yet.</span>';
+    const st = document.getElementById("dam-status-strip");
+    const turnName = this.turn === "R" ? "Red (You)" : (this.mode === "ai" ? "AI Thinking..." : "White's Turn");
+    st.innerHTML = `<div style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:9999px;background:${this.turn==='R'?'#ef4444':'#f8fafc'};"></span><strong>${turnName}</strong></div><span style="color:#fcd34d;font-size:12px;">${this.mustChain ? "Multi-Jump Active!" : this.huffedPositions.length ? "King capture available (refusing huffs)" : "Board Ready"}</span>`;
+    const stopBtn = document.getElementById("dam-stop-king-btn");
+    const canStopKing = this.mustChain && this.selected && this.board[this.selected[0]][this.selected[1]]?.isKing;
+    stopBtn.classList.toggle("hidden", !canStopKing);
+   },
+   renderBoard() {
+    const wrap = document.getElementById("dam-board-wrap");
+    wrap.className = "dam-board-wrap " + (this.theme === "dark_slate" ? "theme-dark" : this.theme === "emerald_classic" ? "theme-emerald" : "");
+    const grid = document.getElementById("dam-grid");
+    const sz = this.size;
+    grid.style.gridTemplateColumns = `repeat(${sz}, minmax(0, 1fr))`;
+    grid.style.gridTemplateRows = `repeat(${sz}, minmax(0, 1fr))`;
+    const flip = this.autoFlip && this.mode === "pvp" && this.turn === "W";
+    const lc = this.theme === "dark_slate" ? "light-dark" : this.theme === "emerald_classic" ? "light-emerald" : "light-wood";
+    const dc = this.theme === "dark_slate" ? "dark-dark" : this.theme === "emerald_classic" ? "dark-emerald" : "dark-wood";
+    const pol = this.getCapturePolicy(this.board, this.turn);
+    let html = "";
+    for (let vr = 0; vr < sz; vr++) {
+     for (let vc = 0; vc < sz; vc++) {
+      const r = flip ? sz - 1 - vr : vr, c = flip ? sz - 1 - vc : vc;
+      const dark = (r + c) % 2 === 1;
+      const p = this.board[r][c];
+      const isSel = this.selected && this.selected[0] === r && this.selected[1] === c;
+      const mv = this.validMoves.find((m) => m.to[0] === r && m.to[1] === c);
+      const isLast = this.lastMove && ((this.lastMove.from[0] === r && this.lastMove.from[1] === c) || (this.lastMove.to[0] === r && this.lastMove.to[1] === c));
+      const mustCap = p && p.color === this.turn && !p.isKing && pol.pawnCaps && this.getSingleCaptures(this.board, r, c, p).length > 0;
+      const huffWarn = this.huffedPositions.some(([hr, hc]) => hr === r && hc === c);
+      html += `<button type="button" data-r="${r}" data-c="${c}" class="dam-sq ${dark ? dc : lc} ${isLast ? 'last-move' : ''}">`;
+      if (p) {
+       html += `<div class="dam-piece ${p.color === 'R' ? 'red' : 'white'} ${isSel ? 'selected' : ''} ${mustCap ? 'must-cap' : ''}"><div class="dam-piece-inner">${p.isKing ? '♛' : ''}</div></div>`;
+      }
+      if (mv) html += mv.isCapture ? '<div class="dam-cap-ring"></div>' : '<div class="dam-dot"></div>';
+      if (huffWarn) html += '<div class="dam-huff-ring"></div>';
+      html += "</button>";
+     }
+    }
+    grid.innerHTML = html;
+   }
+  };
+  // =========================================================================
+  // AFRICAN LUDO PRO (15x15 Track, African Home & International Classic Rules)
+  // =========================================================================
+  const LudoGame = {
+   MAIN_LOOP: [
+    [6,1],[6,2],[6,3],[6,4],[6,5],[5,6],[4,6],[3,6],[2,6],[1,6],[0,6],[0,7],[0,8],
+    [1,8],[2,8],[3,8],[4,8],[5,8],[6,9],[6,10],[6,11],[6,12],[6,13],[6,14],[7,14],[8,14],
+    [8,13],[8,12],[8,11],[8,10],[8,9],[9,8],[10,8],[11,8],[12,8],[13,8],[14,8],[14,7],[14,6],
+    [13,6],[12,6],[11,6],[10,6],[9,6],[8,5],[8,4],[8,3],[8,2],[8,1],[8,0],[7,0],[6,0]
+   ],
+   HOME_STRETCH: {
+    red: [[7,1],[7,2],[7,3],[7,4],[7,5],[7,6]],
+    green: [[1,7],[2,7],[3,7],[4,7],[5,7],[6,7]],
+    yellow: [[7,13],[7,12],[7,11],[7,10],[7,9],[7,8]],
+    blue: [[13,7],[12,7],[11,7],[10,7],[9,7],[8,7]]
+   },
+   YARD_CELLS: {
+    red: [[1.6,1.6],[1.6,3.4],[3.4,1.6],[3.4,3.4]],
+    green: [[1.6,10.6],[1.6,12.4],[3.4,10.6],[3.4,12.4]],
+    yellow: [[10.6,10.6],[10.6,12.4],[12.4,10.6],[12.4,12.4]],
+    blue: [[10.6,1.6],[10.6,3.4],[12.4,1.6],[12.4,3.4]]
+   },
+   META: {
+    red: { name: "Red", hex: "#dc2626", start: 0 },
+    green: { name: "Green", hex: "#16a34a", start: 13 },
+    yellow: { name: "Yellow", hex: "#eab308", start: 26 },
+    blue: { name: "Blue", hex: "#2563eb", start: 39 }
+   },
+   STARS: new Set([0, 8, 13, 21, 26, 34, 39, 47]),
+   mode: "vs-ai-2p", preset: "african_home", releaseRule: "6",
+   players: [], turnIdx: 0, phase: "waiting_roll", dice: null, turnNum: 1, sixStreak: 0,
+   tokens: [], moves: [], ranks: [], logs: [], musicOn: true, sfxOn: true,
+   musicTimer: 0, aiTimer: 0, noteIdx: 0, inited: false,
+   tokenRaf: 0, diceRaf: 0, tokenAnims: {}, visualPos: {},
+   onShow() {
+    this.buildBoardShell();
+    if (!this.inited) { this.bindEvents(); this.inited = true; }
+    this.syncSetupButtons();
+    if (!this.tokens.length) this.reset();
+    else this.renderAll();
+    if (this.musicOn) this.startMusic();
+   },
+   bindEvents() {
+    const rollBtn = document.getElementById("ludo-roll-btn");
+    FastTouch.bindTap(rollBtn, () => this.roll());
+    const board = document.getElementById("ludo-board");
+    const triggerToken = (target) => {
+     const btn = target && target.closest ? target.closest(".ludo-token") : null;
+     if (!btn || btn.dataset.mv === undefined || btn.dataset.mv === "") return;
+     const mvIdx = Number(btn.dataset.mv);
+     if (!Number.isNaN(mvIdx) && this.moves[mvIdx]) this.executeMove(this.moves[mvIdx]);
+    };
+    board.addEventListener("touchstart", (e) => {
+     if (e.touches.length > 1) return;
+     const btn = e.target && e.target.closest ? e.target.closest(".ludo-token.movable") : null;
+     if (!btn) return;
+     e.preventDefault();
+     FastTouch.markTouch();
+     triggerToken(btn);
+    }, { passive: false });
+    board.addEventListener("click", (e) => {
+     if (FastTouch.shouldIgnoreClick()) return;
+     triggerToken(e.target);
+    });
+   },
+   stopAnims() {
+    if (this.tokenRaf) { cancelAnimationFrame(this.tokenRaf); this.tokenRaf = 0; }
+    if (this.diceRaf) { cancelAnimationFrame(this.diceRaf); this.diceRaf = 0; }
+    this.tokenAnims = {};
+   },
+   animateDiceRaf() {
+    if (this.diceRaf) cancelAnimationFrame(this.diceRaf);
+    const el = document.getElementById("ludo-dice");
+    if (!el) return;
+    const start = performance.now();
+    const duration = 180;
+    const step = (now) => {
+     const t = Math.min(1, (now - start) / duration);
+     const inv = 1 - t;
+     const rot = Math.sin(t * Math.PI * 2.5) * 14 * inv;
+     const sc = 1 + 0.14 * Math.sin(t * Math.PI);
+     el.style.transform = `scale(${sc.toFixed(3)}) rotate(${rot.toFixed(2)}deg)`;
+     if (t < 1) {
+      this.diceRaf = requestAnimationFrame(step);
+     } else {
+      el.style.transform = "";
+      this.diceRaf = 0;
+     }
+    };
+    this.diceRaf = requestAnimationFrame(step);
+   },
+   stepToCoord(color, step, idx) {
+    if (step === -1) return this.YARD_CELLS[color][idx];
+    if (step >= 51) return this.HOME_STRETCH[color][step - 51];
+    return this.MAIN_LOOP[this.trackIdx(color, step)];
+   },
+   buildPathCoords(t, fromStep, toStep, kind) {
+    const startPt = this.visualPos[t.id]
+     ? [this.visualPos[t.id].r, this.visualPos[t.id].c]
+     : this.stepToCoord(t.color, fromStep, t.idx);
+    const endPt = this.stepToCoord(t.color, toStep, t.idx);
+    if (fromStep === toStep) return [startPt, endPt];
+    if (fromStep === -1 || toStep === -1 || kind === "raid" || kind === "chop") {
+     return [startPt, endPt];
+    }
+    const pts = [startPt];
+    if (kind === "rev" && fromStep > toStep && fromStep - toStep <= 6) {
+     for (let s = fromStep - 1; s >= toStep; s--) pts.push(this.stepToCoord(t.color, s, t.idx));
+     return pts;
+    }
+    if (kind === "loop" || kind === "annual") {
+     const dist = (toStep - fromStep + 52) % 52;
+     if (dist >= 1 && dist <= 6) {
+      for (let i = 1; i <= dist; i++) pts.push(this.stepToCoord(t.color, (fromStep + i) % 52, t.idx));
+      return pts;
+     }
+    }
+    if (toStep > fromStep && toStep - fromStep <= 6) {
+     for (let s = fromStep + 1; s <= toStep; s++) pts.push(this.stepToCoord(t.color, s, t.idx));
+     return pts;
+    }
+    pts.push(endPt);
+    return pts;
+   },
+   queueTokenAnim(t, fromStep, toStep, kind) {
+    const pts = this.buildPathCoords(t, fromStep, toStep, kind);
+    const hops = Math.max(1, pts.length - 1);
+    const dur = Math.min(340, Math.max(170, hops * 62));
+    this.tokenAnims[t.id] = {
+     pts,
+     start: performance.now(),
+     dur
+    };
+    if (!this.tokenRaf) {
+     this.tokenRaf = requestAnimationFrame((now) => this.tickTokenAnim(now));
+    }
+   },
+   tickTokenAnim(now) {
+    const layer = document.getElementById("ludo-tokens-layer");
+    let activeCount = 0;
+    Object.keys(this.tokenAnims).forEach((id) => {
+     const anim = this.tokenAnims[id];
+     const t = Math.min(1, (now - anim.start) / anim.dur);
+     const segs = anim.pts.length - 1;
+     const raw = t * segs;
+     const idx = Math.min(segs - 1, Math.floor(raw));
+     const localT = raw - idx;
+     const ease = localT < 0.5 ? 2 * localT * localT : 1 - Math.pow(-2 * localT + 2, 2) / 2;
+     const p0 = anim.pts[idx], p1 = anim.pts[idx + 1] || p0;
+     const r = p0[0] + (p1[0] - p0[0]) * ease;
+     const c = p0[1] + (p1[1] - p0[1]) * ease;
+     const hop = Math.sin(localT * Math.PI) * 0.22;
+     this.visualPos[id] = { r, c };
+     const btn = layer ? layer.querySelector(`.ludo-token[data-tid="${id}"]`) : null;
+     if (btn) {
+      const left = ((c + 0.5) / 15) * 100;
+      const top = ((r + 0.5) / 15) * 100;
+      btn.style.left = left.toFixed(3) + "%";
+      btn.style.top = top.toFixed(3) + "%";
+      btn.style.transform = `translate(-50%,-50%) scale(${(1 + hop).toFixed(3)})`;
+      btn.style.zIndex = "35";
+     }
+     if (t >= 1) {
+      delete this.tokenAnims[id];
+     } else {
+      activeCount++;
+     }
+    });
+    if (activeCount > 0) {
+     this.tokenRaf = requestAnimationFrame((n) => this.tickTokenAnim(n));
+    } else {
+     this.tokenRaf = 0;
+     this.renderTokensLayer();
+    }
+   },
+   toggleSetup(open) { document.getElementById("ludo-setup-modal").classList.toggle("hidden", !open); },
+   toggleRules(open) { document.getElementById("ludo-rules-modal").classList.toggle("hidden", !open); },
+   setMode(m) { this.mode = m; this.syncSetupButtons(); this.reset(); },
+   setPreset(p) { this.preset = p; this.syncSetupButtons(); this.reset(); },
+   setRelease(r) { this.releaseRule = r; this.syncSetupButtons(); this.reset(); },
+   syncSetupButtons() {
+    document.querySelectorAll(".ludo-mode-btn").forEach((b) => { b.style.borderColor = b.dataset.mode === this.mode ? "#f59e0b" : "#334155"; });
+    document.querySelectorAll(".ludo-preset-btn").forEach((b) => { b.style.borderColor = b.dataset.preset === this.preset ? "#f59e0b" : "#334155"; });
+    document.querySelectorAll(".ludo-rel-btn").forEach((b) => { b.style.borderColor = b.dataset.rel === this.releaseRule ? "#f59e0b" : "#334155"; });
+   },
+   toggleMusic() {
+    this.musicOn = !this.musicOn;
+    document.getElementById("ludo-music-btn").style.color = this.musicOn ? "#fcd34d" : "#8e8173";
+    if (this.musicOn) this.startMusic(); else this.stopMusic();
+   },
+   toggleSfx() {
+    this.sfxOn = !this.sfxOn;
+    document.getElementById("ludo-sfx-btn").style.color = this.sfxOn ? "#fcd34d" : "#8e8173";
+   },
+   startMusic() {
+    this.stopMusic();
+    const scale = [261.6, 293.6, 329.6, 392.0, 440.0, 523.2];
+    this.musicTimer = setInterval(() => {
+     if (!this.musicOn || AudioFX.muted || document.getElementById("view-ludo").classList.contains("hidden")) return;
+     AudioFX.tone(scale[this.noteIdx % scale.length], 0.25, "sine", 0.02);
+     this.noteIdx++;
+    }, 420);
+   },
+   stopMusic() { clearInterval(this.musicTimer); this.musicTimer = 0; },
+   playSfx(kind) {
+    if (!this.sfxOn || AudioFX.muted) return;
+    if (kind === "dice") AudioFX.tone(320, 0.05, "triangle", 0.06);
+    else if (kind === "step") AudioFX.tone(440, 0.05, "sine", 0.05);
+    else if (kind === "chop") { AudioFX.tone(220, 0.14, "sawtooth", 0.09); AudioFX.tone(520, 0.1, "triangle", 0.07, 0.06); }
+    else if (kind === "goal") [523, 659, 784].forEach((f, i) => AudioFX.tone(f, 0.14, "triangle", 0.07, i * 0.06));
+    else if (kind === "win") AudioFX.dam("win");
+   },
+   buildBoardShell() {
+    const el = document.getElementById("ludo-board");
+    if (el.dataset.built) return;
+    el.dataset.built = "1";
+    const startCells = { "6,1": "#dc2626", "1,8": "#16a34a", "8,13": "#eab308", "13,6": "#2563eb" };
+    const homeCells = {};
+    Object.entries(this.HOME_STRETCH).forEach(([col, arr]) => {
+     arr.slice(0, 5).forEach(([r, c]) => { homeCells[r + "," + c] = this.META[col].hex; });
+    });
+    const starCoords = new Set([...this.STARS].map((i) => this.MAIN_LOOP[i][0] + "," + this.MAIN_LOOP[i][1]));
+    let html = "";
+    for (let r = 0; r < 15; r++) {
+     for (let c = 0; c < 15; c++) {
+      const k = r + "," + c;
+      let bg = "#faf6ee", icon = "";
+      if (startCells[k]) { bg = startCells[k]; icon = '<span style="color:#fff;font-weight:800;font-size:10px;">★</span>'; }
+      else if (homeCells[k]) { bg = homeCells[k] + "36"; }
+      else if (starCoords.has(k)) { bg = "#efe8da"; icon = "★"; }
+      html += `<div class="ludo-cell" style="background:${bg};">${icon}</div>`;
+     }
+    }
+    const yards = [
+     { col: "red", top: 0, left: 0, bg: "#b91c1c" },
+     { col: "green", top: 0, left: "60%", bg: "#15803d" },
+     { col: "blue", top: "60%", left: 0, bg: "#2563eb" },
+     { col: "yellow", top: "60%", left: "60%", bg: "#ca8a04" }
+    ];
+    yards.forEach((y) => {
+     html += `<div class="ludo-yard" style="top:${y.top};left:${y.left};background:${y.bg};"><div class="ludo-yard-inner"><div class="ludo-pedestal" style="background:${y.bg};"></div><div class="ludo-pedestal" style="background:${y.bg};"></div><div class="ludo-pedestal" style="background:${y.bg};"></div><div class="ludo-pedestal" style="background:${y.bg};"></div></div></div>`;
+    });
+    html += `<div class="ludo-center"><svg viewBox="0 0 100 100" style="width:100%;height:100%;display:block;"><polygon points="0,0 50,50 0,100" fill="#dc2626"/><polygon points="0,0 100,0 50,50" fill="#16a34a"/><polygon points="100,0 100,100 50,50" fill="#eab308"/><polygon points="0,100 100,100 50,50" fill="#2563eb"/><circle cx="50" cy="50" r="18" fill="#faf6ee" stroke="#44403c" stroke-width="2"/><text x="50" y="56" text-anchor="middle" font-size="20" fill="#b45309">♛</text></svg></div>`;
+    html += '<div id="ludo-tokens-layer" style="position:absolute;inset:0;pointer-events:none;"></div>';
+    el.innerHTML = html;
+   },
+   reset() {
+    clearTimeout(this.aiTimer);
+    this.stopAnims();
+    this.visualPos = {};
+    const defs = this.mode === "vs-ai-2p"
+     ? [{ c: "red", ai: false }, { c: "yellow", ai: true }]
+     : this.mode === "local-2p"
+      ? [{ c: "red", ai: false }, { c: "yellow", ai: false }]
+      : this.mode === "vs-ai-4p"
+       ? [{ c: "red", ai: false }, { c: "green", ai: true }, { c: "yellow", ai: true }, { c: "blue", ai: true }]
+       : [{ c: "red", ai: false }, { c: "green", ai: false }, { c: "yellow", ai: false }, { c: "blue", ai: false }];
+    this.players = defs.map((d) => ({ color: d.c, name: this.META[d.c].name + (d.ai ? " AI" : ""), ai: d.ai, unlocked: this.preset === "international_classic", kills: 0 }));
+    this.tokens = [];
+    this.players.forEach((p) => {
+     for (let i = 0; i < 4; i++) {
+      const tok = { id: p.color + "-" + i, color: p.color, idx: i, step: -1 };
+      this.tokens.push(tok);
+      const [r, c] = this.tokenCoords(tok);
+      this.visualPos[tok.id] = { r, c };
+     }
+    });
+    const layer = document.getElementById("ludo-tokens-layer");
+    if (layer) layer.innerHTML = "";
+    this.turnIdx = 0; this.phase = "waiting_roll"; this.dice = null; this.turnNum = 1; this.sixStreak = 0;
+    this.moves = []; this.ranks = []; this.logs = ["Match started (" + (this.preset === "african_home" ? "African Home" : "International Classic") + ")."];
+    document.getElementById("ludo-victory-modal").classList.add("hidden");
+    this.renderAll();
+    this.maybeAI();
+   },
+   isAfrican() { return this.preset === "african_home"; },
+   trackIdx(color, step) { return (this.META[color].start + step) % 52; },
+   activePlayer() { return this.players[this.turnIdx]; },
+   isSquareBlocked(trackIndex, moverColor) {
+    if (!this.isAfrican()) return false;
+    const map = {};
+    for (const t of this.tokens) {
+     if (t.step >= 0 && t.step <= 50 && t.color !== moverColor) {
+      const ti = this.trackIdx(t.color, t.step);
+      if (ti === trackIndex) map[t.color] = (map[t.color] || 0) + 1;
+     }
+    }
+    return Object.values(map).some((n) => n >= 2);
+   },
+   pathBlocked(color, fromStep, dist) {
+    if (!this.isAfrican()) return false;
+    for (let d = 1; d <= dist; d++) {
+     const ns = (fromStep + d) % 52;
+     if (this.isSquareBlocked(this.trackIdx(color, ns), color)) return true;
+    }
+    return false;
+   },
+   legalMoves(player, roll) {
+    const list = [];
+    const own = this.tokens.filter((t) => t.color === player.color);
+    const canRelease = roll === 6 || (this.releaseRule === "1or6" && roll === 1);
+    for (const t of own) {
+     if (t.step === 56) continue;
+     if (t.step === -1) {
+      if (canRelease) {
+       const startTrack = this.META[t.color].start;
+       if (!this.isSquareBlocked(startTrack, t.color)) {
+        const enemies = this.tokens.filter((e) => e.color !== t.color && e.step >= 0 && e.step <= 50 && this.trackIdx(e.color, e.step) === startTrack);
+        const safe = !this.isAfrican() && this.STARS.has(startTrack);
+        list.push({ token: t, kind: "deploy", toStep: 0, captures: safe ? [] : enemies, label: "Deploy Seed #" + (t.idx + 1) + (enemies.length && !safe ? " (CHOP!)" : "") });
+       }
+      }
+      continue;
+     }
+     if (t.step >= 51) {
+      if (t.step + roll <= 56) {
+       list.push({ token: t, kind: t.step + roll === 56 ? "goal" : "home", toStep: t.step + roll, captures: [], label: "Seed #" + (t.idx + 1) + (t.step + roll === 56 ? " → Center Crown Goal!" : " advance Home") });
+      }
+      if (this.isAfrican() && t.step - roll === 50) {
+       const ent = this.trackIdx(t.color, 50);
+       const enemies = this.tokens.filter((e) => e.color !== t.color && e.step >= 0 && e.step <= 50 && this.trackIdx(e.color, e.step) === ent);
+       if (enemies.length === 1) {
+        list.push({ token: t, kind: "rev", toStep: 50, captures: enemies, label: "Seed #" + (t.idx + 1) + " Reverse Chop!" });
+       }
+      }
+      continue;
+     }
+     if (t.step + roll > 50) {
+      if (player.unlocked) {
+       if (t.step + roll <= 56 && !this.pathBlocked(t.color, t.step, 50 - t.step)) {
+        list.push({ token: t, kind: t.step + roll === 56 ? "goal" : "enter_home", toStep: t.step + roll, captures: [], label: "Seed #" + (t.idx + 1) + " Continue to Home" });
+       }
+       if (this.isAfrican()) {
+        const loopStep = (t.step + roll) % 52;
+        if (!this.pathBlocked(t.color, t.step, roll)) {
+         const ti = this.trackIdx(t.color, loopStep);
+         const enemies = this.tokens.filter((e) => e.color !== t.color && e.step >= 0 && e.step <= 50 && this.trackIdx(e.color, e.step) === ti);
+         list.push({ token: t, kind: "annual", toStep: loopStep, captures: enemies, label: "Seed #" + (t.idx + 1) + " Annual Journey (Short Cut)" });
+        }
+       }
+      } else {
+       const loopStep = (t.step + roll) % 52;
+       if (!this.pathBlocked(t.color, t.step, roll)) {
+        const ti = this.trackIdx(t.color, loopStep);
+        const enemies = this.tokens.filter((e) => e.color !== t.color && e.step >= 0 && e.step <= 50 && this.trackIdx(e.color, e.step) === ti);
+        const safe = !this.isAfrican() && this.STARS.has(ti);
+        list.push({ token: t, kind: "loop", toStep: loopStep, captures: safe ? [] : enemies, label: "Seed #" + (t.idx + 1) + " Loop Track (Home Locked 🔒)" });
+       }
+      }
+     } else if (!this.pathBlocked(t.color, t.step, roll)) {
+      const destStep = t.step + roll;
+      const ti = this.trackIdx(t.color, destStep);
+      const enemies = this.tokens.filter((e) => e.color !== t.color && e.step >= 0 && e.step <= 50 && this.trackIdx(e.color, e.step) === ti);
+      const safe = !this.isAfrican() && this.STARS.has(ti);
+      list.push({ token: t, kind: "track", toStep: destStep, captures: safe ? [] : enemies, label: "Seed #" + (t.idx + 1) + " +" + roll + (!safe && enemies.length ? " (CHOP!)" : "") });
+     }
+     if (this.isAfrican() && t.step - roll >= 0) {
+      const revStep = t.step - roll;
+      const ti = this.trackIdx(t.color, revStep);
+      const enemies = this.tokens.filter((e) => e.color !== t.color && e.step >= 0 && e.step <= 50 && this.trackIdx(e.color, e.step) === ti);
+      if (enemies.length === 1) {
+       list.push({ token: t, kind: "rev", toStep: revStep, captures: enemies, label: "Seed #" + (t.idx + 1) + " Reverse Chop!" });
+      }
+     }
+     if (this.isAfrican()) {
+      for (const opp of this.players) {
+       if (opp.color === t.color) continue;
+       const oppEnt = (this.META[opp.color].start + 50) % 52;
+       const curTi = this.trackIdx(t.color, t.step);
+       const distToEnt = (oppEnt - curTi + 52) % 52;
+       if (roll > distToEnt && roll - distToEnt <= 5) {
+        const raidHomeStep = 50 + (roll - distToEnt);
+        const victim = this.tokens.find((e) => e.color === opp.color && e.step === raidHomeStep);
+        if (victim && !this.pathBlocked(t.color, t.step, distToEnt)) {
+         const backStep = (oppEnt - this.META[t.color].start + 52) % 52;
+         list.push({ token: t, kind: "raid", toStep: backStep, captures: [victim], label: "Seed #" + (t.idx + 1) + " Home Line Raid!" });
+        }
+       }
+      }
+     }
+    }
+    return list;
+   },
+   roll() {
+    if (this.phase !== "waiting_roll" || this.ranks.length >= this.players.length - 1) return;
+    const p = this.activePlayer();
+    const r = Math.floor(Math.random() * 6) + 1;
+    this.dice = r;
+    this.playSfx("dice");
+    this.animateDiceRaf();
+    if (r === 6) {
+     this.sixStreak++;
+     if (this.sixStreak >= 3) {
+      this.logs.unshift(p.name + " rolled 3rd 6 in a row — turn forfeited!");
+      this.sixStreak = 0;
+      this.renderAll();
+      setTimeout(() => this.nextTurn(), 650);
+      return;
+     }
+    } else {
+     this.sixStreak = 0;
+    }
+    const legal = this.legalMoves(p, r);
+    this.moves = legal;
+    if (!legal.length) {
+     this.logs.unshift(p.name + " rolled " + r + " (no legal moves).");
+     this.phase = "waiting_roll";
+     this.renderAll();
+     setTimeout(() => this.nextTurn(), 600);
+     return;
+    }
+    this.phase = "selecting";
+    this.renderAll();
+    if (p.ai) {
+     this.aiTimer = setTimeout(() => {
+      const sorted = [...legal].sort((a, b) => (b.captures.length * 40 + (b.kind === "goal" ? 30 : 0) + b.toStep) - (a.captures.length * 40 + (a.kind === "goal" ? 30 : 0) + a.toStep));
+      this.executeMove(sorted[0]);
+     }, 480);
+    }
+   },
+   executeMove(mv) {
+    if (this.phase !== "selecting") return;
+    const p = this.activePlayer();
+    const prevStep = mv.token.step;
+    mv.token.step = mv.toStep;
+    this.queueTokenAnim(mv.token, prevStep, mv.toStep, mv.kind);
+    let bonus = this.dice === 6;
+    if (mv.captures.length) {
+     mv.captures.forEach((v) => {
+      const vPrev = v.step;
+      v.step = -1;
+      this.queueTokenAnim(v, vPrev, -1, "chop");
+     });
+     p.kills += mv.captures.length;
+     p.unlocked = true;
+     bonus = true;
+     this.playSfx("chop");
+     this.logs.unshift(p.name + " chopped enemy seed! Home 🔓");
+    } else if (mv.kind === "goal") {
+     bonus = true;
+     this.playSfx("goal");
+     this.logs.unshift(p.name + " scored a seed in the Crown Goal!");
+    } else {
+     this.playSfx("step");
+     this.logs.unshift(p.name + " rolled " + this.dice + " (" + mv.label + ")");
+    }
+    const finishedCount = this.tokens.filter((t) => t.color === p.color && t.step === 56).length;
+    if (finishedCount === 4 && !this.ranks.includes(p.color)) {
+     this.ranks.push(p.color);
+     this.logs.unshift(p.name + " finished #" + this.ranks.length + "!");
+     if (this.ranks.length >= this.players.length - 1) {
+      const rem = this.players.find((pl) => !this.ranks.includes(pl.color));
+      if (rem) this.ranks.push(rem.color);
+      this.playSfx("win");
+      this.showVictory();
+      this.renderAll();
+      return;
+     }
+    }
+    this.moves = [];
+    this.phase = "waiting_roll";
+    if (bonus && finishedCount < 4) {
+     this.renderAll();
+     this.maybeAI();
+    } else {
+     this.nextTurn();
+    }
+   },
+   nextTurn() {
+    this.sixStreak = 0; this.moves = []; this.phase = "waiting_roll";
+    let guard = 0;
+    do {
+     this.turnIdx = (this.turnIdx + 1) % this.players.length;
+     if (this.turnIdx === 0) this.turnNum++;
+     guard++;
+    } while (this.ranks.includes(this.activePlayer().color) && guard < 6);
+    this.renderAll();
+    this.maybeAI();
+   },
+   maybeAI() {
+    const p = this.activePlayer();
+    if (p && p.ai && this.ranks.length < this.players.length - 1) {
+     clearTimeout(this.aiTimer);
+     this.aiTimer = setTimeout(() => this.roll(), 560);
+    }
+   },
+   showVictory() {
+    const winCol = this.ranks[0];
+    document.getElementById("ludo-win-title").textContent = this.META[winCol].name + " Wins!";
+    document.getElementById("ludo-win-sub").textContent = "Completed in " + this.turnNum + " turns";
+    document.getElementById("ludo-win-ranks").innerHTML = this.ranks.map((c, i) => `<div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13px;"><span>#${i + 1} · <strong style="color:${this.META[c].hex};">${this.META[c].name}</strong></span><span>${i === 0 ? "🏆 Winner" : "Finished"}</span></div>`).join("");
+    document.getElementById("ludo-victory-modal").classList.remove("hidden");
+   },
+   tokenCoords(t) {
+    if (t.step === -1) return this.YARD_CELLS[t.color][t.idx];
+    if (t.step >= 51) return this.HOME_STRETCH[t.color][t.step - 51];
+    return this.MAIN_LOOP[this.trackIdx(t.color, t.step)];
+   },
+   renderDice() {
+    const pips = {
+     1: [[50,50]], 2: [[28,28],[72,72]], 3: [[28,28],[50,50],[72,72]],
+     4: [[28,28],[72,28],[28,72],[72,72]], 5: [[28,28],[72,28],[50,50],[28,72],[72,72]],
+     6: [[28,24],[72,24],[28,50],[72,50],[28,76],[72,76]]
+    }[this.dice || 1];
+    document.getElementById("ludo-dice").innerHTML = pips.map(([x, y]) => `<span class="ludo-pip" style="left:${x}%;top:${y}%;"></span>`).join("");
+   },
+   renderTokensLayer() {
+    const p = this.activePlayer();
+    const layer = document.getElementById("ludo-tokens-layer");
+    if (!layer) return;
+    const groups = {};
+    this.tokens.forEach((t) => {
+     const [r, c] = this.tokenCoords(t);
+     const k = r.toFixed(1) + "," + c.toFixed(1);
+     (groups[k] = groups[k] || []).push({ t, r, c });
+    });
+    Object.values(groups).forEach((grp) => {
+     grp.forEach(({ t, r, c }, idx) => {
+      const mvIdx = (!p.ai && this.phase === "selecting") ? this.moves.findIndex((m) => m.token.id === t.id) : -1;
+      const offX = grp.length > 1 ? ((idx % 2) - 0.5) * 2.1 : 0;
+      const offY = grp.length > 1 ? (Math.floor(idx / 2) - 0.5) * 2.1 : 0;
+      const left = ((c + 0.5) / 15) * 100 + offX;
+      const top = ((r + 0.5) / 15) * 100 + offY;
+      const sz = t.step === -1 ? "5.2%" : "4.5%";
+      let btn = layer.querySelector(`.ludo-token[data-tid="${t.id}"]`);
+      if (!btn) {
+       btn = document.createElement("button");
+       btn.type = "button";
+       btn.dataset.tid = t.id;
+       btn.textContent = String(t.idx + 1);
+       btn.style.background = this.META[t.color].hex;
+       layer.appendChild(btn);
+      }
+      btn.className = "ludo-token" + (mvIdx >= 0 ? " movable" : "");
+      if (mvIdx >= 0) btn.dataset.mv = String(mvIdx);
+      else delete btn.dataset.mv;
+      btn.style.width = sz;
+      btn.style.height = sz;
+      btn.style.pointerEvents = mvIdx >= 0 ? "auto" : "none";
+      if (!this.tokenAnims[t.id]) {
+       this.visualPos[t.id] = { r, c };
+       btn.style.left = left + "%";
+       btn.style.top = top + "%";
+       btn.style.transform = "translate(-50%,-50%)";
+       btn.style.zIndex = mvIdx >= 0 ? "30" : "25";
+      }
+     });
+    });
+   },
+   renderAll() {
+    const p = this.activePlayer();
+    document.getElementById("ludo-turn-dot").style.background = this.META[p.color].hex;
+    document.getElementById("ludo-turn-num").textContent = "Turn " + this.turnNum;
+    document.getElementById("ludo-meta-line").innerHTML = `<span>${this.mode.toUpperCase()} · ${this.isAfrican() ? "African Home" : "Classic"}</span><span>Release: ${this.releaseRule === "1or6" ? "1 or 6" : "6 Only"}</span>`;
+    document.getElementById("ludo-status").textContent = p.name + (this.phase === "selecting" ? " — Choose Seed" : " — Tap Roll Dice");
+    const rBtn = document.getElementById("ludo-roll-btn");
+    rBtn.disabled = p.ai || this.phase !== "waiting_roll";
+    rBtn.style.opacity = rBtn.disabled ? ".55" : "1";
+    this.renderDice();
+    const actEl = document.getElementById("ludo-actions");
+    if (!p.ai && this.phase === "selecting" && this.moves.length) {
+     actEl.innerHTML = this.moves.map((m, i) => `<button type="button" class="btn-secondary" style="justify-content:space-between;background:#261f1a;border-color:#4a382b;" onclick="LudoGame.executeMove(LudoGame.moves[${i}])"><span>${m.label}</span><span style="color:#fcd34d;">Go →</span></button>`).join("");
+    } else {
+     actEl.innerHTML = "";
+    }
+    document.getElementById("ludo-roster").innerHTML = this.players.map((pl, idx) => {
+     const homeCount = this.tokens.filter((t) => t.color === pl.color && t.step === 56).length;
+     return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:10px;background:#16120f;border:1px solid ${idx===this.turnIdx?'#f59e0b':'#2e251e'};font-size:12px;"><div style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:9999px;background:${this.META[pl.color].hex};"></span><strong>${pl.name}</strong><span>${this.isAfrican() ? (pl.unlocked ? "🔓" : "🔒") : ""}</span></div><span class="font-mono">${homeCount}/4</span></div>`;
+    }).join("");
+    document.getElementById("ludo-logs").innerHTML = this.logs.slice(0, 6).map((l) => `<div>• ${l}</div>`).join("");
+    this.renderTokensLayer();
+   }
+  };
+  window.addEventListener("DOMContentLoaded", () => Hub.init());
+ </script>
+</body>
+</html>
